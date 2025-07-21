@@ -50,37 +50,59 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg fw-bold fs-5">Đăng Nhập</p>
+                <p class="login-box-msg fw-bold fs-5">Đăng Ký Tài Khoản</p>
 
-                <form id="loginForm" method="post" action="../index3.html" novalidate>
-                    <div class="input-group mb-2">
-                        <input type="number" class="form-control" placeholder="Căn cước công dân" id="cccd"
+                <form id="registerForm" method="post">
+                    <!-- Email -->
+                    <div class="input-group mb-3">
+                        <input type="email" id="email" class="form-control"
+                            placeholder="Email ( Sử dụng email cá nhân )" onchange="validateEmail()">
+                        <div class="input-group-text">
+                            <span class="fa-solid fa-envelope"></span>
+                        </div>
+                    </div>
+                    <div class="text-danger small mb-2" id="emailError"></div>
+
+                    <!-- CCCD -->
+                    <div class="input-group mb-3">
+                        <input type="number" id="cccd" class="form-control" placeholder="Căn cước công dân"
                             onchange="validateCCCD()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-user"></span>
                         </div>
                     </div>
-                    <div class="text-danger mb-3" id="cccd-error" style="display: none; font-size: 0.9rem;"></div>
+                    <div class="text-danger small mb-2" id="cccdError"></div>
 
-                    <div class="input-group mb-2 mt-3">
-                        <input type="password" class="form-control" placeholder="Mật khẩu" id="password"
+                    <!-- Mật khẩu -->
+                    <div class="input-group mb-3">
+                        <input type="password" id="password" class="form-control" placeholder="Mật khẩu"
                             onchange="validatePassword()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-lock"></span>
                         </div>
                     </div>
-                    <div class="text-danger mb-3" id="password-error" style="display: none; font-size: 0.9rem;"></div>
 
-                    <div class="social-auth-links text-center mb-3 d-grid gap-2 mt-3">
+                    <!-- Nhập lại mật khẩu -->
+                    <div class="input-group mb-3">
+                        <input type="password" id="repassword" class="form-control" placeholder="Nhập lại mật khẩu"
+                            onchange="validatePassword()">
+                        <div class="input-group-text">
+                            <span class="fa-solid fa-lock"></span>
+                        </div>
+                    </div>
+                    <div class="text-danger small mb-3" id="passwordError"></div>
+
+                    <!-- Nút đăng ký -->
+                    <div class="d-grid gap-2 mb-3">
                         <button type="submit" class="btn btn-primary">
-                            Đăng nhập
+                            Đăng ký ngay
                         </button>
                     </div>
 
                     <div class="social-auth-links text-center mb-3 d-grid gap-2">
                         <p style="opacity: 0.5; font-size: 12px;" class="text-secondary">―――――――― HOẶC ――――――――</p>
 
-                        <p class="">Nếu bạn chưa có tài khoản? <a href="{{ route('register')}}">Đăng ký tại đây</a></p>
+                        <p class="">Nếu bạn có tài khoản? <a href="{{ route('login')}}">Đăng nhập tại đây</a></p>
 
                     </div>
                 </form>
@@ -106,48 +128,72 @@
     <script src="../../../dist/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
-   function validateCCCD() {
-            const cccd = document.getElementById('cccd').value.trim();
-            const error = document.getElementById('cccd-error');
-            if (cccd === '') {
-                error.innerText = 'Vui lòng nhập Căn cước công dân.';
-                error.style.display = 'block';
-                return false;
-            } else if (cccd.length !== 12) {
-                error.innerText = 'CCCD phải đủ 12 số.';
-                error.style.display = 'block';
-                return false;
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const value = emailInput.value.trim();
+            const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+            if (!isValid) {
+                emailError.textContent = "Email không hợp lệ.";
+                emailInput.classList.add('is-invalid');
             } else {
-                error.innerText = '';
-                error.style.display = 'none';
-                return true;
+                emailError.textContent = "";
+                emailInput.classList.remove('is-invalid');
             }
+
+            return isValid;
+        }
+
+        function validateCCCD() {
+            const cccdInput = document.getElementById('cccd');
+            const cccdError = document.getElementById('cccdError');
+            const value = cccdInput.value.trim();
+            const isValid = /^\d{12}$/.test(value);
+
+            if (!isValid) {
+                cccdError.textContent = "CCCD phải gồm đúng 12 chữ số.";
+                cccdInput.classList.add('is-invalid');
+            } else {
+                cccdError.textContent = "";
+                cccdInput.classList.remove('is-invalid');
+            }
+
+            return isValid;
         }
 
         function validatePassword() {
-            const password = document.getElementById('password').value.trim();
-            const error = document.getElementById('password-error');
-            if (password === '') {
-                error.innerText = 'Vui lòng nhập mật khẩu.';
-                error.style.display = 'block';
+            const pw = document.getElementById('password').value.trim();
+            const repw = document.getElementById('repassword').value.trim();
+            const pwError = document.getElementById('passwordError');
+
+            if (pw.length < 6) {
+                pwError.textContent = "Mật khẩu phải ít nhất 6 ký tự.";
                 return false;
-            } else {
-                error.innerText = '';
-                error.style.display = 'none';
-                return true;
             }
+
+            if (pw !== repw) {
+                pwError.textContent = "Mật khẩu không khớp.";
+                return false;
+            }
+
+            pwError.textContent = "";
+            return true;
         }
 
-        // Kiểm tra toàn form khi submit
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
+        // Gán sự kiện submit cho form
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            const validEmail = validateEmail();
             const validCCCD = validateCCCD();
             const validPassword = validatePassword();
 
-            if (!validCCCD || !validPassword) {
-                e.preventDefault(); // Ngăn không cho submit
+            if (!validEmail || !validCCCD || !validPassword) {
+                e.preventDefault(); // Ngăn submit
+                return false;
             }
         });
     </script>
+
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
         const Default = {
