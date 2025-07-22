@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="{{asset('css/adminlte.css')}}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
 
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--end::Required Plugin(AdminLTE)-->
 </head>
 <!--end::Head-->
@@ -89,6 +91,20 @@
             <!-- /.login-card-body -->
         </div>
     </div>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                toast: true,
+                position: 'top-end',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+
     <!-- /.login-box -->
 
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
@@ -103,10 +119,10 @@
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
         crossorigin="anonymous"></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="../../../dist/js/adminlte.js"></script>
+    <script src="{{ asset('js/adminlte.js') }}"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
-   function validateCCCD() {
+        function validateCCCD() {
             const cccd = document.getElementById('cccd').value.trim();
             const error = document.getElementById('cccd-error');
             if (cccd === '') {

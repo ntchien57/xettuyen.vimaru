@@ -52,10 +52,22 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg fw-bold fs-5">Đăng Ký Tài Khoản</p>
 
-                <form id="registerForm" method="post">
+                <form id="registerForm" method="post" action="{{ route('register') }}">
+                    @csrf
+
+                    <!-- Name -->
+                    <div class="input-group mb-3">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Họ và tên"
+                            onchange="validateName()">
+                        <div class="input-group-text">
+                            <span class="fa-solid fa-user"></span>
+                        </div>
+                    </div>
+                    <div class="text-danger small mb-2" id="nameError"></div>
+
                     <!-- Email -->
                     <div class="input-group mb-3">
-                        <input type="email" id="email" class="form-control"
+                        <input type="email" id="email" name="email" class="form-control"
                             placeholder="Email ( Sử dụng email cá nhân )" onchange="validateEmail()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-envelope"></span>
@@ -65,7 +77,7 @@
 
                     <!-- CCCD -->
                     <div class="input-group mb-3">
-                        <input type="number" id="cccd" class="form-control" placeholder="Căn cước công dân"
+                        <input type="number" id="cccd" name="cccd" class="form-control" placeholder="Căn cước công dân"
                             onchange="validateCCCD()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-user"></span>
@@ -75,7 +87,7 @@
 
                     <!-- Mật khẩu -->
                     <div class="input-group mb-3">
-                        <input type="password" id="password" class="form-control" placeholder="Mật khẩu"
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Mật khẩu"
                             onchange="validatePassword()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-lock"></span>
@@ -84,7 +96,7 @@
 
                     <!-- Nhập lại mật khẩu -->
                     <div class="input-group mb-3">
-                        <input type="password" id="repassword" class="form-control" placeholder="Nhập lại mật khẩu"
+                        <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Nhập lại mật khẩu"
                             onchange="validatePassword()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-lock"></span>
@@ -128,6 +140,26 @@
     <script src="../../../dist/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
+
+        function validateName() {
+            const name = document.getElementById('name').value.trim();
+            const nameError = document.getElementById('nameError');
+
+            // Kiểm tra rỗng hoặc ít hơn 3 ký tự
+            if (!name) {
+                nameError.textContent = "Họ và tên không được để trống.";
+                return false;
+            } else if (name.length < 3) {
+                nameError.textContent = "Họ và tên phải có ít nhất 3 ký tự.";
+                return false;
+            } else if (!/^[\p{L}\s]+$/u.test(name)) {
+                nameError.textContent = "Họ và tên chỉ được chứa chữ cái và khoảng trắng.";
+                return false;
+            } else {
+                nameError.textContent = "";
+                return true;
+            }
+        }
         function validateEmail() {
             const emailInput = document.getElementById('email');
             const emailError = document.getElementById('emailError');
@@ -183,11 +215,12 @@
 
         // Gán sự kiện submit cho form
         document.getElementById('registerForm').addEventListener('submit', function (e) {
+            const validName = validateName();
             const validEmail = validateEmail();
             const validCCCD = validateCCCD();
             const validPassword = validatePassword();
 
-            if (!validEmail || !validCCCD || !validPassword) {
+            if (!validEmail || !validCCCD || !validPassword || !validName)  {
                 e.preventDefault(); // Ngăn submit
                 return false;
             }
