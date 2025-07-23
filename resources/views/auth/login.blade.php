@@ -54,9 +54,10 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg fw-bold fs-5">Đăng Nhập</p>
 
-                <form id="loginForm" method="post" action="../index3.html" novalidate>
+                <form id="loginForm" method="post" action="{{ route('login')}}" novalidate>
+                    @csrf
                     <div class="input-group mb-2">
-                        <input type="number" class="form-control" placeholder="Căn cước công dân" id="cccd"
+                        <input type="number" class="form-control" placeholder="Căn cước công dân" id="cccd" name="cccd"
                             onchange="validateCCCD()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-user"></span>
@@ -65,7 +66,7 @@
                     <div class="text-danger mb-3" id="cccd-error" style="display: none; font-size: 0.9rem;"></div>
 
                     <div class="input-group mb-2 mt-3">
-                        <input type="password" class="form-control" placeholder="Mật khẩu" id="password"
+                        <input type="password" class="form-control" placeholder="Mật khẩu" id="password" name="password"
                             onchange="validatePassword()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-lock"></span>
@@ -103,8 +104,18 @@
                 showConfirmButton: false
             });
         </script>
+    @elseif(session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '{{ session('error') }}',
+                toast: true,
+                position: 'top-end',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        </script>
     @endif
-
     <!-- /.login-box -->
 
     <!--begin::Third Party Plugin(OverlayScrollbars)-->

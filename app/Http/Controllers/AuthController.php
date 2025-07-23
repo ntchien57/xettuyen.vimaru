@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -22,8 +23,17 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // Kiểm tra email tồn tại
+        if (User::where('email', $request->email)->exists()) {
+            return back()->with('error', 'Email đã được sử dụng.')->withInput();
+        }
+
+        // Kiểm tra CCCD tồn tại
+        if (User::where('cccd', $request->cccd)->exists()) {
+            return back()->with('error', 'CCCD đã được sử dụng.')->withInput();
+        }
         User::create([
-            'hoten' => $request->name, // Bạn có thể bổ sung trường này từ form nếu cần
+            'hoten' => $request->name,
             'email' => $request->email,
             'cccd' => $request->cccd,
             'matkhau' => Hash::make($request->password),
@@ -31,6 +41,35 @@ class AuthController extends Controller
         ]);
 
         return redirect()->route('login')->with('success', 'Đăng ký thành công, vui lòng đăng nhập.');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'cccd' => 'required|digits:12',
+            'password' => 'required|min:6',
+        ]);
+
+        $user = User::where('cccd', $request->cccd)->first();
+
+        if (!$user) {
+            return back()->with('error', 'CCCD không tồn tại')->withInput();
+        }
+
+        if (!Hash::check($request->password, $user->matkhau)) {
+            return back()->with('error', 'Mật khẩu không đúng')->withInput();
+        }
+
+        // Đăng nhập thành công
+        Auth::login($user);
+
+        return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Đăng xuất thành công!');
     }
 
     public function show(string $id)

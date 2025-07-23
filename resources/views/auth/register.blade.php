@@ -31,6 +31,8 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{asset('css/adminlte.css')}}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <!--end::Required Plugin(AdminLTE)-->
 </head>
@@ -96,8 +98,8 @@
 
                     <!-- Nhập lại mật khẩu -->
                     <div class="input-group mb-3">
-                        <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Nhập lại mật khẩu"
-                            onchange="validatePassword()">
+                        <input type="password" id="repassword" name="repassword" class="form-control"
+                            placeholder="Nhập lại mật khẩu" onchange="validatePassword()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-lock"></span>
                         </div>
@@ -124,6 +126,30 @@
         </div>
     </div>
     <!-- /.login-box -->
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                toast: true,
+                position: 'top-end',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        </script>
+    @elseif(session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '{{ session('error') }}',
+                toast: true,
+                position: 'top-end',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
 
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.1.0/browser/overlayscrollbars.browser.es6.min.js"
@@ -220,7 +246,7 @@
             const validCCCD = validateCCCD();
             const validPassword = validatePassword();
 
-            if (!validEmail || !validCCCD || !validPassword || !validName)  {
+            if (!validEmail || !validCCCD || !validPassword || !validName) {
                 e.preventDefault(); // Ngăn submit
                 return false;
             }
