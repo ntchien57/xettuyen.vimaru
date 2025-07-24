@@ -1,0 +1,241 @@
+{
+  "Hà Nội": [
+    "THPT Chu Văn An",
+    "THPT Kim Liên",
+    "THPT Phan Đình Phùng"
+  ],
+  "Hồ Chí Minh": [
+    "THPT Lê Hồng Phong",
+    "THPT Gia Định",
+    "THPT Nguyễn Thượng Hiền"
+  ],
+  "Đà Nẵng": [
+    "THPT Phan Châu Trinh",
+    "THPT Nguyễn Hiền",
+    "THPT Hoàng Hoa Thám"
+  ],
+  "Hải Phòng": [
+    "THPT Trần Nguyên Hãn",
+    "THPT Ngô Quyền"
+  ],
+  "Cần Thơ": [
+    "THPT Châu Văn Liêm",
+    "THPT Thực hành Sư phạm"
+  ],
+  "Bình Dương": [
+    "THPT Nguyễn Đình Chiểu",
+    "THPT Dĩ An"
+  ],
+  "Đồng Nai": [
+    "THPT Lê Quý Đôn",
+    "THPT Trấn Biên"
+  ],
+  "Nghệ An": [
+    "THPT Chuyên Phan Bội Châu",
+    "THPT Huỳnh Thúc Kháng"
+  ],
+  "Thanh Hóa": [
+    "THPT Hàm Rồng",
+    "THPT Đào Duy Từ"
+  ],
+  "Quảng Ninh": [
+    "THPT Hạ Long",
+    "THPT Uông Bí"
+  ],
+  "Nam Định": [
+    "THPT Lê Hồng Phong",
+    "THPT Trần Hưng Đạo"
+  ],
+  "Thái Bình": [
+    "THPT Nguyễn Đức Cảnh",
+    "THPT Lê Quý Đôn"
+  ],
+  "Bắc Giang": [
+    "THPT Chuyên Bắc Giang",
+    "THPT Lục Nam"
+  ],
+  "Bắc Ninh": [
+    "THPT Hàn Thuyên",
+    "THPT Lý Thái Tổ"
+  ],
+  "Lào Cai": [
+    "THPT Số 1 Lào Cai",
+    "THPT Bát Xát"
+  ],
+  "Lai Châu": [
+    "THPT Chuyên Lê Quý Đôn",
+    "THPT Phong Thổ"
+  ],
+  "Điện Biên": [
+    "THPT Thành phố Điện Biên Phủ",
+    "THPT Tuần Giáo"
+  ],
+  "Sơn La": [
+    "THPT Tô Hiệu",
+    "THPT Mai Sơn"
+  ],
+  "Yên Bái": [
+    "THPT Nguyễn Huệ",
+    "THPT Văn Chấn"
+  ],
+  "Hòa Bình": [
+    "THPT chuyên Hoàng Văn Thụ",
+    "THPT Kỳ Sơn"
+  ],
+  "Tuyên Quang": [
+    "THPT Tân Trào",
+    "THPT Sơn Dương"
+  ],
+  "Hà Giang": [
+    "THPT Chuyên Hà Giang",
+    "THPT Yên Minh"
+  ],
+  "Cao Bằng": [
+    "THPT Bế Văn Đàn",
+    "THPT Nguyên Bình"
+  ],
+  "Bắc Kạn": [
+    "THPT Bắc Kạn",
+    "THPT Chợ Đồn"
+  ],
+  "Lạng Sơn": [
+    "THPT Lạng Sơn",
+    "THPT Văn Quan"
+  ],
+  "Phú Thọ": [
+    "THPT Việt Trì",
+    "THPT Hùng Vương"
+  ],
+  "Vĩnh Phúc": [
+    "THPT Trần Phú",
+    "THPT Nguyễn Viết Xuân"
+  ],
+  "Hà Nam": [
+    "THPT A Phủ Lý",
+    "THPT Lý Nhân"
+  ],
+  "Ninh Bình": [
+    "THPT Trần Hưng Đạo",
+    "THPT Gia Viễn A"
+  ],
+  "Quảng Bình": [
+    "THPT chuyên Võ Nguyên Giáp",
+    "THPT Lệ Thủy"
+  ],
+  "Quảng Trị": [
+    "THPT Đông Hà",
+    "THPT Lê Thế Hiếu"
+  ],
+  "Thừa Thiên Huế": [
+    "THPT chuyên Quốc Học",
+    "THPT Hai Bà Trưng"
+  ],
+  "Quảng Nam": [
+    "THPT Nguyễn Duy Hiệu",
+    "THPT Trần Cao Vân"
+  ],
+  "Bình Định": [
+    "THPT chuyên Lê Quý Đôn",
+    "THPT Trưng Vương"
+  ],
+  "Phú Yên": [
+    "THPT Nguyễn Huệ",
+    "THPT Trần Phú"
+  ],
+  "Khánh Hòa": [
+    "THPT Lý Tự Trọng",
+    "THPT Hoàng Văn Thụ"
+  ],
+  "Ninh Thuận": [
+    "THPT chuyên Lê Quý Đôn",
+    "THPT Nguyễn Văn Linh"
+  ],
+  "Bình Thuận": [
+    "THPT Phan Bội Châu",
+    "THPT Lê Lợi"
+  ],
+  "Kon Tum": [
+    "THPT Kon Tum",
+    "THPT Nguyễn Trãi"
+  ],
+  "Gia Lai": [
+    "THPT Pleiku",
+    "THPT Nguyễn Huệ"
+  ],
+  "Đắk Lắk": [
+    "THPT chuyên Nguyễn Du",
+    "THPT Buôn Ma Thuột"
+  ],
+  "Đắk Nông": [
+    "THPT Gia Nghĩa",
+    "THPT Đắk Mil"
+  ],
+  "Lâm Đồng": [
+    "THPT Bùi Thị Xuân",
+    "THPT Trần Phú"
+  ],
+  "Tây Ninh": [
+    "THPT Tây Ninh",
+    "THPT Trần Đại Nghĩa"
+  ],
+  "Bình Phước": [
+    "THPT Đồng Xoài",
+    "THPT Lê Quý Đôn"
+  ],
+  "Bà Rịa - Vũng Tàu": [
+    "THPT Vũng Tàu",
+    "THPT Nguyễn Bỉnh Khiêm"
+  ],
+  "Long An": [
+    "THPT Tân An",
+    "THPT Thủ Thừa"
+  ],
+  "Tiền Giang": [
+    "THPT Nguyễn Đình Chiểu",
+    "THPT Chợ Gạo"
+  ],
+  "Bến Tre": [
+    "THPT Nguyễn Đình Chiểu",
+    "THPT Lương Thế Vinh"
+  ],
+  "Trà Vinh": [
+    "THPT Chuyên Nguyễn Thiện Thành",
+    "THPT Duyên Hải"
+  ],
+  "Vĩnh Long": [
+    "THPT Nguyễn Thông",
+    "THPT Lưu Văn Liệt"
+  ],
+  "Hậu Giang": [
+    "THPT Vị Thanh",
+    "THPT Long Mỹ"
+  ],
+  "Sóc Trăng": [
+    "THPT Hoàng Diệu",
+    "THPT Mỹ Xuyên"
+  ],
+  "An Giang": [
+    "THPT Thoại Ngọc Hầu",
+    "THPT Long Xuyên"
+  ],
+  "Kiên Giang": [
+    "THPT Nguyễn Trung Trực",
+    "THPT Rạch Giá"
+  ],
+  "Cà Mau": [
+    "THPT Cà Mau",
+    "THPT Thới Bình"
+  ],
+  "Bạc Liêu": [
+    "THPT Bạc Liêu",
+    "THPT Giá Rai"
+  ],
+  "Hà Tĩnh": [
+    "THPT Chuyên Hà Tĩnh",
+    "THPT Nguyễn Du"
+  ],
+  "TP. Hồ Chí Minh": [
+    "THPT Bùi Thị Xuân",
+    "THPT Nguyễn Thượng Hiền"
+  ]
+}

@@ -39,6 +39,10 @@
     <!-- jsvectormap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
         integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -88,87 +92,180 @@
 
             <!--end::Sidebar Brand-->
             <!--begin::Sidebar Wrapper-->
-            <div class="sidebar-wrapper">
-                <nav class="mt-2">
-                    <!--begin::Sidebar Menu-->
-                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
-                        data-accordion="false">
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link active">
-                                <i class="nav-icon fa-solid fa-gauge-high"></i>
-                                <p class="fw-bold">
-                                    Trang chủ
-                                </p>
-                            </a>
-                           
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link ">
-                                <i class="nav-icon fa-solid fa-user"></i>
-                                <p class="fw-bold">
-                                    Thông tin thí sinh
-                                </p>
-                            </a>
-                           
-                        </li>
+            @if (Auth::user()->role == 0)
+                <div class="sidebar-wrapper">
+                    <nav class="mt-2">
+                        <!--begin::Sidebar Menu-->
+                        <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
+                            data-accordion="false">
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link active">
+                                    <i class="nav-icon fa-solid fa-gauge-high"></i>
+                                    <p class="fw-bold">
+                                        Trang chủ
+                                    </p>
+                                </a>
 
-                        <li class="nav-header">ĐĂNG KÝ XÉT TUYỂN ĐẠI HỌC</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-gopuram"></i>
-                                <p class="fw-bold">Phương thức 1</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-gopuram"></i>
-                                <p class="fw-bold">Phương thức 2</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-gopuram"></i>
-                                <p class="fw-bold">Phương thức 3</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-gopuram"></i>
-                                <p class="fw-bold">Phương thức 4</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-gopuram"></i>
-                                <p class="fw-bold">Phương thức 5</p>
-                            </a>
-                        </li>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('profile')}}" class="nav-link ">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p class="fw-bold">
+                                        Thông tin thí sinh
+                                    </p>
+                                </a>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-gopuram"></i>
-                                <p class="fw-bold">Phương thức 6</p>
-                            </a>
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-square-poll-vertical"></i>
-                                <p class="fw-bold">Kết quả xét tuyển</p>
-                            </a>
-                        </li>
+                            <li class="nav-header">ĐĂNG KÝ XÉT TUYỂN ĐẠI HỌC</li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gopuram"></i>
+                                    <p class="fw-bold">Phương thức 1</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gopuram"></i>
+                                    <p class="fw-bold">Phương thức 2</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gopuram"></i>
+                                    <p class="fw-bold">Phương thức 3</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gopuram"></i>
+                                    <p class="fw-bold">Phương thức 4</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gopuram"></i>
+                                    <p class="fw-bold">Phương thức 5</p>
+                                </a>
+                            </li>
 
-                        <li class="nav-header">TÀI KHOẢN</li>
-                        <li class="nav-item">
-                            <a href="{{ route('logout')}}" class="nav-link">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <p class="fw-bold">ĐĂNG XUẤT</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <!--end::Sidebar Menu-->
-                </nav>
-            </div>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-gopuram"></i>
+                                    <p class="fw-bold">Phương thức 6</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Kết quả xét tuyển</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-header">TÀI KHOẢN</li>
+                            <li class="nav-item">
+                                <a href="{{ route('logout')}}" class="nav-link">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <p class="fw-bold">ĐĂNG XUẤT</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <!--end::Sidebar Menu-->
+                    </nav>
+                </div>
+            @elseif(Auth::user()->role == 1)
+                <div class="sidebar-wrapper">
+                    <nav class="mt-2">
+                        <!--begin::Sidebar Menu-->
+                        <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
+                            data-accordion="false">
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link active">
+                                    <i class="nav-icon fa-solid fa-gauge-high"></i>
+                                    <p class="fw-bold">
+                                        Trang chủ
+                                    </p>
+                                </a>
+
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link ">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p class="fw-bold">
+                                        Quản lý tài khoản
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý chuyên ngành</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý hồ sơ</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý kết quả xét tuyển</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Xét tuyển thí sinh</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-header">TÀI KHOẢN</li>
+                            <li class="nav-item">
+                                <a href="{{ route('logout')}}" class="nav-link">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <p class="fw-bold">ĐĂNG XUẤT</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <!--end::Sidebar Menu-->
+                    </nav>
+                </div>
+            @else
+                <div class="sidebar-wrapper">
+                    <nav class="mt-2">
+                        <!--begin::Sidebar Menu-->
+                        <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
+                            data-accordion="false">
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link active">
+                                    <i class="nav-icon fa-solid fa-gauge-high"></i>
+                                    <p class="fw-bold">
+                                       Thống kê
+                                    </p>
+                                </a>
+
+                            </li>
+                                                      
+                            <li class="nav-header">TÀI KHOẢN</li>
+                            <li class="nav-item">
+                                <a href="{{ route('logout')}}" class="nav-link">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <p class="fw-bold">ĐĂNG XUẤT</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <!--end::Sidebar Menu-->
+                    </nav>
+                </div>
+            @endif
+
             <!--end::Sidebar Wrapper-->
         </aside>
         <!--end::Sidebar-->
@@ -196,6 +293,8 @@
     <!--end::App Wrapper-->
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.1.0/browser/overlayscrollbars.browser.es6.min.js"
         integrity="sha256-NRZchBuHZWSXldqrtAOeCZpucH/1n1ToJ3C8mSK95NU=" crossorigin="anonymous"></script>
     <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
@@ -438,6 +537,7 @@
         );
         sparkline3.render();
     </script>
+    @yield('script')
     <!--end::Script-->
 </body><!--end::Body-->
 

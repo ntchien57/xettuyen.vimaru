@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,7 @@ Route::post('/login', [AuthController::class,'login']);
 Route::get('/register', [AuthController::class,'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class,'register']);
 Route::get('/logout', [AuthController::class,'logout'])->name('logout');
-Route::get('/profile', [AuthController::class,'profile'])->name('profile');
+Route::get('/profile', [UserController::class,'profile'])->name('profile');
 
 
 Route::get('/', function () {

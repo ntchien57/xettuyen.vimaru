@@ -45,22 +45,18 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'cccd' => 'required|digits:12',
-            'password' => 'required|min:6',
-        ]);
-
-        $user = User::where('cccd', $request->cccd)->first();
-
+       
+        $user = User::where('cccd', $request->cccd)
+            ->orWhere('email', $request->cccd)
+            ->first();
         if (!$user) {
-            return back()->with('error', 'CCCD không tồn tại')->withInput();
+            return back()->with('error', 'Tài khoản không tồn tại')->withInput();
         }
 
         if (!Hash::check($request->password, $user->matkhau)) {
             return back()->with('error', 'Mật khẩu không đúng')->withInput();
         }
 
-        // Đăng nhập thành công
         Auth::login($user);
 
         return redirect()->route('home')->with('success', 'Đăng nhập thành công!');

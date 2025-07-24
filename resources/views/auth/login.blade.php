@@ -57,7 +57,7 @@
                 <form id="loginForm" method="post" action="{{ route('login')}}" novalidate>
                     @csrf
                     <div class="input-group mb-2">
-                        <input type="number" class="form-control" placeholder="Căn cước công dân" id="cccd" name="cccd"
+                        <input type="text" class="form-control" placeholder="Email đăng ký / Căn cước công dân" id="cccd" name="cccd"
                             onchange="validateCCCD()">
                         <div class="input-group-text">
                             <span class="fa-solid fa-user"></span>
@@ -137,11 +137,7 @@
             const cccd = document.getElementById('cccd').value.trim();
             const error = document.getElementById('cccd-error');
             if (cccd === '') {
-                error.innerText = 'Vui lòng nhập Căn cước công dân.';
-                error.style.display = 'block';
-                return false;
-            } else if (cccd.length !== 12) {
-                error.innerText = 'CCCD phải đủ 12 số.';
+                error.innerText = 'Vui lòng nhập tài khoản.';
                 error.style.display = 'block';
                 return false;
             } else {
