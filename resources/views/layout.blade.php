@@ -42,7 +42,6 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -99,7 +98,7 @@
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link active">
+                                <a href="{{ route('home') }}" class="nav-link active">
                                     <i class="nav-icon fa-solid fa-gauge-high"></i>
                                     <p class="fw-bold">
                                         Trang chủ
@@ -181,7 +180,7 @@
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link active">
+                                <a href="{{ route('home') }}" class="nav-link active">
                                     <i class="nav-icon fa-solid fa-gauge-high"></i>
                                     <p class="fw-bold">
                                         Trang chủ
@@ -190,7 +189,7 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link ">
+                                <a href="{{ route('account') }}" class="nav-link ">
                                     <i class="nav-icon fa-solid fa-user"></i>
                                     <p class="fw-bold">
                                         Quản lý tài khoản
@@ -252,7 +251,7 @@
                                 </a>
 
                             </li>
-                                                      
+
                             <li class="nav-header">TÀI KHOẢN</li>
                             <li class="nav-item">
                                 <a href="{{ route('logout')}}" class="nav-link">
@@ -277,16 +276,12 @@
         <!--end::App Main-->
         <!--begin::Footer-->
         <footer class="app-footer">
-            <!--begin::To the end-->
-            <div class="float-end d-none d-sm-inline">Anything you want</div>
-            <!--end::To the end-->
-            <!--begin::Copyright-->
+
             <strong>
-                Copyright &copy; 2014-2023
-                <a href="https://adminlte.io">AdminLTE.io</a>.
+                Copyright &copy; {{ NOW()->year }}
+                <a href="#">TRƯỜNG ĐẠI HỌC HÀNG HẢI VIỆT NAM</a>.
             </strong>
-            All rights reserved.
-            <!--end::Copyright-->
+
         </footer>
         <!--end::Footer-->
     </div>
@@ -305,6 +300,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
         crossorigin="anonymous"></script>
+        <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/jszip.min.js') }}"></script>
+<script src="{{ asset('js/pdfmake.min.js') }}"></script>
+<script src="{{ asset('js/vfs_fonts.js') }}"></script>
+<script src="{{ asset('js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('js/buttons.colVis.min.js') }}"></script>
+<!-- AdminLTE App -->
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
     <script src="{{asset('js/adminlte.js')}}"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->

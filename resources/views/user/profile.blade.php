@@ -247,106 +247,45 @@
                     <!-- form start -->
                     <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col-sm-3">
+                            <div class="col-sm-6">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label class="fw-bold mb-2">Họ và tên <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập họ và tên" required>
-                                    <span style="font-size: 12px">Họ và tên in hoa, có dấu</span>
+                                    <label class="fw-bold mb-2">Đối tượng ưu tiên <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="doituong" required>
+                                        <option value="">10 - Không thuộc diện ưu tiên</option>
+                                        <option value="">07</option>
+                                        <option value="">06</option>
+                                        <option value="">05</option>
+                                        <option value="">04</option>
+                                        <option value="">03</option>
+                                        <option value="">02</option>
+                                        <option value="">01</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label class="fw-bold mb-2">Ngày sinh <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" placeholder="Nhập ngày sinh" required>
-                                    <span style="font-size: 12px">Định dạng DD/MM/YYYY</span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Giới tính <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="">
-                                        <option>Chọn giới tính</option>
-                                        <option value="0">Nam</option>
-                                        <option value="1">Nữ</option>
+                                    <label class="fw-bold mb-2">Khu vực ưu tiên <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="khuvuc" required>
+                                        <option value="">Khu vực 3</option>
+                                        <option value="">Khu vực 2 - Nông thôn</option>
+                                        <option value="">Khu vực 2</option>
+                                        <option value="">Khu vực 1</option>
                                     </select>
                                 </div>
                             </div>
 
-                            @php
-                                $dantoc = [
-                                    'Kinh',
-                                    'Tày',
-                                    'Thái',
-                                    'Mường',
-                                    'Khmer',
-                                    'Hoa',
-                                    'Nùng',
-                                    'H\'Mông',
-                                    'Dao',
-                                    'Gia-rai',
-                                    'Ê-đê',
-                                    'Ba-na',
-                                    'Sán Chay',
-                                    'Chăm',
-                                    'Xê-đăng',
-                                    'Sán Dìu',
-                                    'Hrê',
-                                    'Ra-glai',
-                                    'Mnông',
-                                    'Thổ',
-                                    'Stiêng',
-                                    'Khơ Mú',
-                                    'Bru - Vân Kiều',
-                                    'Cơ Ho',
-                                    'Tà Ôi',
-                                    'Giáy',
-                                    'Cơ Tu',
-                                    'Gié Triêng',
-                                    'Mạ',
-                                    'Co',
-                                    'Chơ Ro',
-                                    'Xinh Mun',
-                                    'Hà Nhì',
-                                    'Chu Ru',
-                                    'Lào',
-                                    'La Chí',
-                                    'Phù Lá',
-                                    'La Hủ',
-                                    'Kháng',
-                                    'Lự',
-                                    'Lô Lô',
-                                    'Chứt',
-                                    'Mảng',
-                                    'Pà Thẻn',
-                                    'Co Lao',
-                                    'Cống',
-                                    'Bố Y',
-                                    'Si La',
-                                    'Pu Péo',
-                                    'Brâu',
-                                    'Ơ Đu',
-                                    'Rơ Măm'
-                                ];
-                            @endphp
-
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label class="fw-bold mb-2">Dân tộc <span class="text-danger">*</span></label>
-                                    <select style="padding: 0.375rem 0.75rem !important;" class="form-control" name=""
-                                        id="dantoc-select">
-                                        @foreach ($dantoc as $dt)
-                                            <option>Chọn dân tộc</option>
-                                            <option value="{{ $dt }}">{{ $dt }}</option>
-                                        @endforeach
+                                    <label class="fw-bold mb-2">Năm tốt nghiệp THPT <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="namtotnghiep" id="namtotnghiep" required>
+
                                     </select>
                                 </div>
                             </div>
-
 
                         </div>
                         <div class="row mb-3">
@@ -391,8 +330,10 @@
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Học lực <span class="text-danger">*</span></label>
                                     <select class="form-control" name="" id="noisinh-select">
-                                        <option>Chọn nơi sinh</option>
-
+                                        <option>Xuất sắc</option>
+                                        <option>Giỏi</option>
+                                        <option>Khá</option>
+                                        <option>Trung bình</option>
                                     </select>
                                 </div>
                             </div>
@@ -400,12 +341,170 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Hạnh kiểm <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập Email" required>
+                                    <select class="form-control" name="" id="noisinh-select">
+                                        <option>Tốt</option>
+                                        <option>Khá</option>
+                                    </select>
 
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">&nbsp;</label>
+                                    <br>
+                                    <p class="fw-bold text-center">Lớp 11</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Tỉnh - Thành Phố <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" id="tinh-select" name="tinh" required>
+                                        <option value="">-- Chọn tỉnh/thành --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Trường THPT <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" id="truong-select" name="truong" required>
+                                        <option value="">-- Chọn trường THPT --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Học lực <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="" id="noisinh-select">
+                                        <option>Xuất sắc</option>
+                                        <option>Giỏi</option>
+                                        <option>Khá</option>
+                                        <option>Trung bình</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Hạnh kiểm <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="" id="noisinh-select">
+                                        <option>Tốt</option>
+                                        <option>Khá</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">&nbsp;</label>
+                                    <br>
+                                    <p class="fw-bold text-center">Lớp 12</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Tỉnh - Thành Phố <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" id="tinh-select" name="tinh" required>
+                                        <option value="">-- Chọn tỉnh/thành --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Trường THPT <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" id="truong-select" name="truong" required>
+                                        <option value="">-- Chọn trường THPT --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Học lực <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="" id="noisinh-select">
+                                        <option>Xuất sắc</option>
+                                        <option>Giỏi</option>
+                                        <option>Khá</option>
+                                        <option>Trung bình</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Hạnh kiểm <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="" id="noisinh-select">
+                                        <option>Tốt</option>
+                                        <option>Khá</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h3 class="card-title">THÔNG TIN NGƯỜI LIÊN HỆ (BỐ/MẸ/NGƯỜI GIÁM HỘ)
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <p>Khi cần liên hệ với ai?</p>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <!-- text input -->
+
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Họ và tên
+                                        <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Họ và tên">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Quan hệ <span class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="khuvuc" required>
+                                        <option value="">Bố</option>
+                                        <option value="">Mẹ</option>
+                                        <option value="">Người giám hộ</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Số điện thoại <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Số điện thoại">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label class="fw-bold mb-2">Email</label>
+                                    <input type="email" class="form-control" placeholder="Email">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">Lưu thông tin</button>
                 </div>
                 <!-- /.card-body -->
             </form>
@@ -473,5 +572,7 @@
             });
         });
     </script>
+
+
 
 @endsection

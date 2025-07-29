@@ -27,7 +27,7 @@
         </div>
         <!--end::App Content Header-->
         <!--begin::App Content-->
-        <div class="app-content">
+        {{-- <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
                 <!--begin::Row-->
@@ -432,7 +432,7 @@
                 <!-- /.row (main row) -->
             </div>
             <!--end::Container-->
-        </div>
+        </div> --}}
         <!--end::App Content-->
-        
+
 @endsection
