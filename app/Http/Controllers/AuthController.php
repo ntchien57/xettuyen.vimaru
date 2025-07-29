@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-       
+
         $user = User::where('cccd', $request->cccd)
             ->orWhere('email', $request->cccd)
             ->first();
@@ -59,7 +59,12 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+        if (Auth::user()->id == 0) {
+            return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
+        } else if(Auth::user()->id == 1) {
+            return redirect()->route('homeAdmin')->with('success', 'Đăng nhập thành công!');
+        }
+
     }
 
     public function logout()
