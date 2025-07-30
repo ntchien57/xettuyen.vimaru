@@ -16,19 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [AuthController::class,'showloginForm'])->name('login');
-Route::post('/login', [AuthController::class,'login']);
-Route::get('/register', [AuthController::class,'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class,'register']);
-Route::get('/logout', [AuthController::class,'logout'])->name('logout');
-Route::get('/profile', [UserController::class,'profile'])->name('profile');
-Route::get('/tai-khoan', [AdminController::class,'account'])->name('account');
+Route::get('/login', [AuthController::class, 'showloginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/', function () {
-    return view('home');
-})->middleware('auth')->name('home');
+// Sinh viên
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('home');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+});
 
-Route::get('/admin', function () {
-    return view('admin.home');
-})->middleware('auth')->name('homeAdmin');
+// Đào tạo
+Route::prefix('dao-tao')->middleware('auth')->middleware('role:1,2')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('homeAdmin');
+});
+
+// Hiệu trưởng - Boss
+Route::middleware(['auth', 'role:2'])->prefix('admin')->group(function () {
+    Route::get('/account', [AdminController::class, 'account'])->name('account');
+});
+
+
+

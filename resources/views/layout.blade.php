@@ -41,6 +41,8 @@
         integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 <!--end::Head-->
@@ -189,15 +191,6 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('account') }}" class="nav-link ">
-                                    <i class="nav-icon fa-solid fa-user"></i>
-                                    <p class="fw-bold">
-                                        Quản lý tài khoản
-                                    </p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
                                     <p class="fw-bold">Quản lý chuyên ngành</p>
@@ -243,10 +236,46 @@
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
+                                <a href="{{ route('account') }}" class="nav-link ">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p class="fw-bold">
+                                        Quản lý tài khoản
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý chuyên ngành</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý hồ sơ</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý kết quả xét tuyển</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Xét tuyển thí sinh</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a href="javascript:;" class="nav-link active">
                                     <i class="nav-icon fa-solid fa-gauge-high"></i>
                                     <p class="fw-bold">
-                                       Thống kê
+                                        Thống kê
                                     </p>
                                 </a>
 
@@ -288,6 +317,29 @@
     <!--end::App Wrapper-->
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                toast: true,
+                position: 'top-end',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        </script>
+    @elseif(session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '{{ session('error') }}',
+                toast: true,
+                position: 'top-end',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.1.0/browser/overlayscrollbars.browser.es6.min.js"
@@ -300,19 +352,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
         crossorigin="anonymous"></script>
-        <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('js/jszip.min.js') }}"></script>
-<script src="{{ asset('js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('js/vfs_fonts.js') }}"></script>
-<script src="{{ asset('js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('js/buttons.colVis.min.js') }}"></script>
-<!-- AdminLTE App -->
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('js/buttons.colVis.min.js') }}"></script>
+    <!-- AdminLTE App -->
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
     <script src="{{asset('js/adminlte.js')}}"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->

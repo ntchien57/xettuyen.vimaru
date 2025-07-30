@@ -59,10 +59,13 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        if (Auth::user()->id == 0) {
+        if (Auth::user()->role == 0) {
             return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
-        } else if(Auth::user()->id == 1) {
+        } elseif (in_array(Auth::user()->role, [1, 2])) {
             return redirect()->route('homeAdmin')->with('success', 'Đăng nhập thành công!');
+        } else {
+            Auth::logout();
+            return back()->with('error', 'Tài khoản không có quyền truy cập.');
         }
 
     }
