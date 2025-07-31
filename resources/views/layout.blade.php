@@ -243,33 +243,6 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Quản lý chuyên ngành</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Quản lý hồ sơ</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Quản lý kết quả xét tuyển</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Xét tuyển thí sinh</p>
-                                </a>
-                            </li>
 
                             <li class="nav-item">
                                 <a href="javascript:;" class="nav-link active">

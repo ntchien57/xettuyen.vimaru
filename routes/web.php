@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DaoTaoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,12 +31,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Đào tạo
-Route::prefix('dao-tao')->middleware('auth')->middleware('role:1,2')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('homeAdmin');
+Route::prefix('dao-tao')->middleware('auth')->middleware('role:1')->group(function () {
+    Route::get('/', [DaoTaoController::class, 'index'])->name('homeDaoTao');
 });
 
 // Hiệu trưởng - Boss
 Route::middleware(['auth', 'role:2'])->prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('homeAdmin');
     Route::get('/account', [AdminController::class, 'account'])->name('account');
 });
 

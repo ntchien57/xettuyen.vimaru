@@ -61,7 +61,9 @@ class AuthController extends Controller
 
         if (Auth::user()->role == 0) {
             return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
-        } elseif (in_array(Auth::user()->role, [1, 2])) {
+        } elseif (Auth::user()->role == 1) {
+            return redirect()->route('homeDaoTao')->with('success', 'Đăng nhập thành công!');
+        } elseif (Auth::user()->role == 2) {
             return redirect()->route('homeAdmin')->with('success', 'Đăng nhập thành công!');
         } else {
             Auth::logout();
