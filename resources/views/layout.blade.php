@@ -212,7 +212,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('xettuyen')}}" class="nav-link">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
                                     <p class="fw-bold">Xét tuyển thí sinh</p>
                                 </a>

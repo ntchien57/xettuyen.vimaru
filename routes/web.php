@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
 // Đào tạo
 Route::prefix('dao-tao')->middleware('auth')->middleware('role:1')->group(function () {
     Route::get('/', [DaoTaoController::class, 'index'])->name('homeDaoTao');
+    Route::get('/xettuyen', [DaoTaoController::class, 'xettuyen'])->name('xettuyen');
+    Route::post('/xet-tuyen', [DaoTaoController::class, 'chayXetTuyen'])->name('xettuyen.chay');
 });
 
 // Hiệu trưởng - Boss
