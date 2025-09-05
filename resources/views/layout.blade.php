@@ -29,7 +29,7 @@
         integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
     <!--end::Third Party Plugin(Font Awesome)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="{{asset('css/adminlte.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
     <!--end::Required Plugin(AdminLTE)-->
 
     <!-- apexcharts -->
@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     <li class="nav-item d-none d-md-block">
-                        <p href="#" class="nav-link">{{ Auth::user()->hoten}} ({{ Auth::user()->cccd}})</p>
+                        <p href="#" class="nav-link">{{ Auth::user()->hoten }} ({{ Auth::user()->cccd }})</p>
                     </li>
                 </ul>
 
@@ -109,7 +109,7 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('profile')}}" class="nav-link ">
+                                <a href="{{ route('profile') }}" class="nav-link ">
                                     <i class="nav-icon fa-solid fa-user"></i>
                                     <p class="fw-bold">
                                         Thông tin thí sinh
@@ -118,55 +118,31 @@
 
                             </li>
 
-                            <li class="nav-header">ĐĂNG KÝ XÉT TUYỂN ĐẠI HỌC</li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-gopuram"></i>
-                                    <p class="fw-bold">Phương thức 1</p>
+                                <a href="{{ route('registerWishes')}}" class="nav-link ">
+                                    {{-- <i class="nav-icon fa-solid fa-user"></i> --}}
+                                    <i class="nav-icon fas fa-registered"></i>
+                                    <p class="fw-bold">
+                                        Đăng ký xét tuyển
+                                    </p>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-gopuram"></i>
-                                    <p class="fw-bold">Phương thức 2</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-gopuram"></i>
-                                    <p class="fw-bold">Phương thức 3</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-gopuram"></i>
-                                    <p class="fw-bold">Phương thức 4</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-gopuram"></i>
-                                    <p class="fw-bold">Phương thức 5</p>
-                                </a>
+
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-gopuram"></i>
-                                    <p class="fw-bold">Phương thức 6</p>
-                                </a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Kết quả xét tuyển</p>
+                             <li class="nav-item">
+                                <a href="" class="nav-link ">
+                                    <i class="nav-icon fas fa-chart-bar"></i>
+                                    <p class="fw-bold">
+                                        Kết quả xét tuyển
+                                    </p>
                                 </a>
+
                             </li>
 
                             <li class="nav-header">TÀI KHOẢN</li>
                             <li class="nav-item">
-                                <a href="{{ route('logout')}}" class="nav-link">
+                                <a href="{{ route('logout') }}" class="nav-link">
                                     <i class="fa-solid fa-right-from-bracket"></i>
                                     <p class="fw-bold">ĐĂNG XUẤT</p>
                                 </a>
@@ -191,14 +167,14 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('dao-tao/majors')}}" class="nav-link {{ request()->is('dao-tao/majors*') ? 'active' : '' }}">
+                                <a href="{{ url('dao-tao/majors') }}" class="nav-link {{ request()->is('dao-tao/majors*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
                                     <p class="fw-bold">Quản lý chuyên ngành</p>
                                 </a>
                             </li>
 
                             <li class="nav-item"> 
-                                <a href="{{ route('candidates.index')}}" class="nav-link {{ request()->routeIs('candidates.index') ? 'active' : '' }}">
+                                <a href="{{ route('candidates.index') }}" class="nav-link {{ request()->routeIs('candidates.index') ? 'active' : '' }}">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
                                     <p class="fw-bold">Quản lý hồ sơ thí sinh</p>
                                 </a>
@@ -227,7 +203,7 @@
 
                             <li class="nav-header">TÀI KHOẢN</li>
                             <li class="nav-item">
-                                <a href="{{ route('logout')}}" class="nav-link">
+                                <a href="{{ route('logout') }}" class="nav-link">
                                     <i class="fa-solid fa-right-from-bracket"></i>
                                     <p class="fw-bold">ĐĂNG XUẤT</p>
                                 </a>
@@ -263,7 +239,7 @@
 
                             <li class="nav-header">TÀI KHOẢN</li>
                             <li class="nav-item">
-                                <a href="{{ route('logout')}}" class="nav-link">
+                                <a href="{{ route('logout') }}" class="nav-link">
                                     <i class="fa-solid fa-right-from-bracket"></i>
                                     <p class="fw-bold">ĐĂNG XUẤT</p>
                                 </a>
@@ -318,20 +294,19 @@
                 timer: 4000,
                 showConfirmButton: false
             });
-        </script>
-    @endif
+        </script> @endif
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.1.0/browser/overlayscrollbars.browser.es6.min.js"
         integrity="sha256-NRZchBuHZWSXldqrtAOeCZpucH/1n1ToJ3C8mSK95NU=" crossorigin="anonymous"></script>
     <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
-        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
-        crossorigin="anonymous"></script>
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
+    </script>
     <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
-        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
-        crossorigin="anonymous"></script>
+        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
@@ -346,7 +321,7 @@
     <script src="{{ asset('js/buttons.colVis.min.js') }}"></script>
     <!-- AdminLTE App -->
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="{{asset('js/adminlte.js')}}"></script>
+    <script src="{{ asset('js/adminlte.js') }}"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
@@ -356,7 +331,7 @@
             scrollbarClickScroll: true,
         };
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
             if (
                 sidebarWrapper &&
@@ -410,13 +385,13 @@
 
         const sales_chart_options = {
             series: [{
-                name: "Digital Goods",
-                data: [28, 48, 40, 19, 86, 27, 90],
-            },
-            {
-                name: "Electronics",
-                data: [65, 59, 80, 81, 56, 55, 40],
-            },
+                    name: "Digital Goods",
+                    data: [28, 48, 40, 19, 86, 27, 90],
+                },
+                {
+                    name: "Electronics",
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                },
             ],
             chart: {
                 height: 300,
@@ -493,7 +468,7 @@
         const option_sparkline1 = {
             series: [{
                 data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-            },],
+            }, ],
             chart: {
                 type: "area",
                 height: 50,
@@ -522,7 +497,7 @@
         const option_sparkline2 = {
             series: [{
                 data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-            },],
+            }, ],
             chart: {
                 type: "area",
                 height: 50,
@@ -551,7 +526,7 @@
         const option_sparkline3 = {
             series: [{
                 data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-            },],
+            }, ],
             chart: {
                 type: "area",
                 height: 50,

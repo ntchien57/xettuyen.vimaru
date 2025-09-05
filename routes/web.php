@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile', [UserController::class, 'save'])->name('profile.save');
+    Route::get('/dang-ky-nguyen-vong', [UserController::class, 'registerWishes'])->name('registerWishes');
+
 });
 // Đào tạo
 Route::prefix('dao-tao')->middleware('auth')->middleware('role:1')->group(function () {

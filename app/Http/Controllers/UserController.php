@@ -105,4 +105,8 @@ class UserController extends Controller
 
         return back()->with('success', 'Đã lưu thông tin hồ sơ.');
     }
+
+    public function registerWishes(){
+        return view('user.register');
+    }
 }

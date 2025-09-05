@@ -8,18 +8,6 @@
                 <h3 class="card-title">Danh sách thí sinh</h3>
             </div>
 
-            {{-- TOP pagination --}}
-            <div class="card-header py-2 d-flex justify-content-between align-items-center">
-                <small class="text-muted mb-0">
-                    @if($users->total() > 0)
-                        Hiển thị {{ $users->firstItem() }}–{{ $users->lastItem() }} / {{ $users->total() }}
-                    @else
-                        Không có dữ liệu
-                    @endif
-                </small>
-                {{ $users->onEachSide(1)->links('pagination::bootstrap-4') }}
-            </div>
-
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped align-middle mb-0">
                     <thead>
@@ -28,6 +16,7 @@
                             <th>Họ tên</th>
                             <th>Email</th>
                             <th>CCCD</th>
+                            <th>Thời gian đăng ký</th>
                             <th class="text-center" style="width:120px">Thao tác</th>
                         </tr>
                     </thead>
@@ -39,12 +28,13 @@
                                 <td>{{ $u->hoten }}</td>
                                 <td>{{ $u->email }}</td>
                                 <td>{{ $u->cccd }}</td>
+                                <td>{{ $u->created_at }}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-sm btn-outline-primary btn-view-profile"
                                         data-user='{{ json_encode($u->only(["id", "hoten", "email", "cccd"])) }}'
                                         data-profile='{{ json_encode($u->profile) }}' data-bs-toggle="modal"
                                         data-bs-target="#profileModal">
-                                        Xem
+                                        Xem chi tiết
                                     </button>
                                 </td>
                             </tr>
@@ -58,14 +48,7 @@
             </div>
 
             {{-- BOTTOM pagination --}}
-            <div class="card-footer d-flex justify-content-between align-items-center">
-                <small class="text-muted mb-0">
-                    @if($users->total() > 0)
-                        Hiển thị {{ $users->firstItem() }}–{{ $users->lastItem() }} / {{ $users->total() }}
-                    @else
-                        Không có dữ liệu
-                    @endif
-                </small>
+            <div class="card-footer d-flex align-items-center" style="justify-content: flex-end">
                 {{ $users->onEachSide(1)->links('pagination::bootstrap-4') }}
             </div>
         </div>
@@ -79,7 +62,7 @@
                     <h5 class="modal-title">
                         Hồ sơ thí sinh <span id="m_hoten" class="text-primary"></span>
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                    <button type="button" class="close btn btn-danger" data-bs-dismiss="modal" aria-label="Đóng">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -88,27 +71,27 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <ul class="list-unstyled mb-0">
-                                <li><b>Họ tên:</b> <span id="m_full_name"></span></li>
-                                <li><b>Ngày sinh:</b> <span id="m_dob"></span></li>
-                                <li><b>Giới tính:</b> <span id="m_gender"></span></li>
-                                <li><b>Dân tộc:</b> <span id="m_ethnicity"></span></li>
-                                <li><b>CCCD:</b> <span id="m_cccd_number"></span></li>
-                                <li><b>Nơi sinh:</b> <span id="m_birth_place"></span></li>
-                                <li><b>Điện thoại:</b> <span id="m_phone"></span></li>
-                                <li><b>Email:</b> <span id="m_email"></span></li>
-                                <li><b>Địa chỉ:</b> <span id="m_address"></span></li>
+                                <li class="mt-2"><b>Họ tên:</b> <span id="m_full_name"></span></li>
+                                <li class="mt-2"><b>Ngày sinh:</b> <span id="m_dob"></span></li>
+                                <li class="mt-2"><b>Giới tính:</b> <span id="m_gender"></span></li>
+                                <li class="mt-2"><b>Dân tộc:</b> <span id="m_ethnicity"></span></li>
+                                <li class="mt-2"><b>CCCD:</b> <span id="m_cccd_number"></span></li>
+                                <li class="mt-2"><b>Nơi sinh:</b> <span id="m_birth_place"></span></li>
+                                <li class="mt-2"><b>Điện thoại:</b> <span id="m_phone"></span></li>
+                                <li class="mt-2"><b>Email:</b> <span id="m_email"></span></li>
+                                <li class="mt-2"><b>Địa chỉ:</b> <span id="m_address"></span></li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-unstyled mb-0">
-                                <li><b>Đối tượng ưu tiên:</b> <span id="m_priority_object"></span></li>
-                                <li><b>Khu vực ưu tiên:</b> <span id="m_priority_area"></span></li>
-                                <li><b>Năm tốt nghiệp:</b> <span id="m_graduation_year"></span></li>
-                                <li><b>Người liên hệ:</b> <span id="m_contact_name"></span></li>
-                                <li><b>Quan hệ:</b> <span id="m_contact_relation"></span></li>
-                                <li><b>SĐT liên hệ:</b> <span id="m_contact_phone"></span></li>
-                                <li><b>Email liên hệ:</b> <span id="m_contact_email"></span></li>
-                                <li><b>Ghi chú:</b> <span id="m_note"></span></li>
+                                <li class="mt-2"><b>Đối tượng ưu tiên:</b> <span id="m_priority_object"></span></li>
+                                <li class="mt-2"><b>Khu vực ưu tiên:</b> <span id="m_priority_area"></span></li>
+                                <li class="mt-2"><b>Năm tốt nghiệp:</b> <span id="m_graduation_year"></span></li>
+                                <li class="mt-2"><b>Người liên hệ:</b> <span id="m_contact_name"></span></li>
+                                <li class="mt-2"><b>Quan hệ:</b> <span id="m_contact_relation"></span></li>
+                                <li class="mt-2"><b>SĐT liên hệ:</b> <span id="m_contact_phone"></span></li>
+                                <li class="mt-2"><b>Email liên hệ:</b> <span id="m_contact_email"></span></li>
+                                {{-- <li><b>Ghi chú:</b> <span id="m_note"></span></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -133,7 +116,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Đóng</button>
                 </div>
             </div>
         </div>
@@ -141,7 +124,7 @@
 @endsection
 
 @section('script')
-    {{-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Nếu bạn lưu ảnh ở public/upload: set baseUpload; nếu ở storage: baseStorage
             const baseUpload = @json(asset('upload'));   // ví dụ: http://app.local/upload
@@ -191,7 +174,7 @@
 
                 const imgFront = document.getElementById('m_front');
                 const imgBack = document.getElementById('m_back');
-
+                
                 if (front) {
                     imgFront.src = front.primary;
                     imgFront.onerror = function () { this.onerror = null; this.src = front.fallback; };
@@ -206,5 +189,5 @@
                 }
             });
         });
-    </script> --}}
+    </script>
 @endsection
