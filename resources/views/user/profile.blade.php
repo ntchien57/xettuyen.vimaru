@@ -30,7 +30,8 @@
     <div class="app-content">
         <!--begin::Container-->
         <div class="container-fluid">
-            <form>
+            <form action="{{ route('profile.save') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">THÔNG TIN CHUNG</h3>
@@ -43,7 +44,8 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Họ và tên <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập họ và tên" required>
+                                    <input type="text" name="full_name" class="form-control" placeholder="Nhập họ và tên"
+                                        value="{{ old('full_name', $profile->full_name) }}" required>
                                     <span style="font-size: 12px">Họ và tên in hoa, có dấu</span>
                                 </div>
                             </div>
@@ -51,7 +53,8 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Ngày sinh <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" placeholder="Nhập ngày sinh" required>
+                                    <input name="dob" type="date" class="form-control"
+                                        value="{{ old('dob', $profile->dob) }}" placeholder="Nhập ngày sinh" required>
                                     <span style="font-size: 12px">Định dạng DD/MM/YYYY</span>
                                 </div>
                             </div>
@@ -60,10 +63,10 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Giới tính <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="">
+                                    <select class="form-control" name="gender" id="">
                                         <option>Chọn giới tính</option>
-                                        <option value="0">Nam</option>
-                                        <option value="1">Nữ</option>
+                                        <option value="male" @selected(old('gender', $profile->gender) == 'male')>Nam</option>
+                                        <option value="female" @selected(old('gender', $profile->gender) == 'female')>Nữ</option>
                                     </select>
                                 </div>
                             </div>
@@ -129,11 +132,12 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Dân tộc <span class="text-danger">*</span></label>
-                                    <select style="padding: 0.375rem 0.75rem !important;" class="form-control" name=""
-                                        id="dantoc-select">
+                                    <select style="padding: 0.375rem 0.75rem !important;" class="form-control"
+                                        name="ethnicity" id="dantoc-select">
                                         <option>Chọn dân tộc</option>
                                         @foreach ($dantoc as $dt)
-                                            <option value="{{ $dt }}">{{ $dt }}</option>
+                                            <option value="{{ $dt }}" @selected(old('ethnicity', $profile->ethnicity) == $dt)>
+                                                {{ $dt }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -146,7 +150,8 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Số Căn cước/CCCD <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập CCCD" required>
+                                    <input type="text" name="cccd_number" class="form-control" placeholder="Nhập CCCD"
+                                        value="{{ old('cccd_number', $profile->cccd_number) }}" required>
                                     <span style="font-size: 12px">Số Căn cước/Căn cước công dân đăng ký tài khoản</span>
                                 </div>
                             </div>
@@ -154,9 +159,8 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Nơi sinh <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
+                                    <select class="form-control" name="birth_place" id="noisinh-select">
                                         <option>Chọn nơi sinh</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -164,7 +168,8 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Email <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập Email" required>
+                                    <input type="text" name="email" class="form-control" placeholder="Nhập Email"
+                                        value="{{ old('email', $profile->email) }}" required>
                                     <span style="font-size: 12px">Email cá nhân đăng ký tài khoản
                                     </span>
                                 </div>
@@ -173,70 +178,71 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Số điện thoại <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập số điện thoại" required>
+                                    <input type="text" name="phone" class="form-control" placeholder="Nhập số điện thoại"
+                                        value="{{ old('phone', $profile->phone) }}" required>
                                     <span style="font-size: 12px">Ưu tiên số điện thoại có đăng ký ZALO (Nếu có)</span>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-4">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Hình ảnh Căn cước/Căn cước công dân<span
-                                            class="text-danger">*</span></label>
-                                    <div
-                                        class="text-center border border-dashed border-secondary rounded border-opacity-50">
-                                        <img class="w-75" src="{{asset('assets/img/mat-truoc-cc.png')}}" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">&nbsp;</label>
-                                    <div
-                                        class="text-center border border-dashed border-secondary rounded border-opacity-50">
-                                        <img class="w-75" src="{{asset('assets/img/mat-truoc-cc.png')}}" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <!-- text input -->
-                                <div class="form-group mb-3">
-                                    <label class="fw-bold mb-2">&nbsp;</label>
-                                    <label class="fw-bold mb-2 d-block">Mặt trước:</label>
-                                    <input type="file" id="cccd_front" name="cccd_front" class="d-none" accept="image/*">
-                                    <label for="cccd_front" class="btn btn-secondary btn-block">
-                                        CHỌN HÌNH ẢNH CĂN CƯỚC MẶT TRƯỚC
-                                    </label>
-                                    <small id="cccd_front_name" class="text-muted ms-1"></small>
-                                </div>
+                       
 
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2 d-block">Mặt sau:</label>
-                                    <input type="file" id="cccd_back" name="cccd_back" class="d-none" accept="image/*">
-                                    <label for="cccd_back" class="btn btn-secondary btn-block">
-                                        CHỌN HÌNH ẢNH CĂN CƯỚC MẶT SAU
-                                    </label>
-                                    <small id="cccd_back_name" class="text-muted ms-1"></small>
-                                </div>
-                            </div>
+                        @php
+    $frontUrl = $profile->cccd_front_path
+        ? asset('upload/'.$profile->cccd_front_path)
+        : asset('assets/img/mat-truoc-cc.png');
 
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Địa chỉ thường trú <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Nhập địa chỉ thường trú" required>
-                                    <span style="font-size: 12px">Số nhà, đường, xã/phường, huyện/quận, tỉnh/thành phố theo
-                                        CCCD</span>
-                                </div>
-                            </div>
+    $backUrl = $profile->cccd_back_path
+        ? asset('upload/'.$profile->cccd_back_path)
+        : asset('assets/img/mat-sau-cc.png');
+@endphp
 
-                        </div>
+<div class="row mb-3">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="fw-bold mb-2">Hình ảnh Căn cước/Căn cước công dân<span class="text-danger">*</span></label>
+            <div class="text-center border border-dashed border-secondary rounded border-opacity-50 p-2">
+                <img id="preview_front" class="w-75"
+                     src="{{ $frontUrl }}"
+                     alt="CCCD mặt trước"
+                     onerror="this.src='{{ asset('assets/img/mat-truoc-cc.png') }}'">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="fw-bold mb-2">&nbsp;</label>
+            <div class="text-center border border-dashed border-secondary rounded border-opacity-50 p-2">
+                <img id="preview_back" class="w-75"
+                     src="{{ $backUrl }}"
+                     alt="CCCD mặt sau"
+                     onerror="this.src='{{ asset('assets/img/mat-sau-cc.png') }}'">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-group mb-3">
+            <label class="fw-bold mb-2 d-block">Mặt trước:</label>
+            <input type="file" id="cccd_front" name="cccd_front_path" class="d-none" accept="image/*">
+            <label for="cccd_front" class="btn btn-secondary btn-block">CHỌN HÌNH ẢNH CĂN CƯỚC MẶT TRƯỚC</label>
+            <small id="cccd_front_name" class="text-muted ms-1">
+                @if($profile->cccd_front_path) {{ basename($profile->cccd_front_path) }} @endif
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label class="fw-bold mb-2 d-block">Mặt sau:</label>
+            <input type="file" id="cccd_back" name="cccd_back_path" class="d-none" accept="image/*">
+            <label for="cccd_back" class="btn btn-secondary btn-block">CHỌN HÌNH ẢNH CĂN CƯỚC MẶT SAU</label>
+            <small id="cccd_back_name" class="text-muted ms-1">
+                @if($profile->cccd_back_path) {{ basename($profile->cccd_back_path) }} @endif
+            </small>
+        </div>
+    </div>
+</div>
+
                     </div>
                 </div>
                 <div class="card card-secondary">
@@ -251,15 +257,24 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Đối tượng ưu tiên <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" name="doituong" required>
-                                        <option value="">10 - Không thuộc diện ưu tiên</option>
-                                        <option value="">07</option>
-                                        <option value="">06</option>
-                                        <option value="">05</option>
-                                        <option value="">04</option>
-                                        <option value="">03</option>
-                                        <option value="">02</option>
-                                        <option value="">01</option>
+                                    <select class="form-control select2" name="priority_object" required>
+                                        <option value="10"
+                                            @selected(old('priority_object', $profile->priority_object) == '10')>10 - Không
+                                            thuộc diện ưu tiên</option>
+                                        <option value="07"
+                                            @selected(old('priority_object', $profile->priority_object) == '07')>07</option>
+                                        <option value="06"
+                                            @selected(old('priority_object', $profile->priority_object) == '06')>06</option>
+                                        <option value="05"
+                                            @selected(old('priority_object', $profile->priority_object) == '05')>05</option>
+                                        <option value="04"
+                                            @selected(old('priority_object', $profile->priority_object) == '04')>04</option>
+                                        <option value="03"
+                                            @selected(old('priority_object', $profile->priority_object) == '03')>03</option>
+                                        <option value="02"
+                                            @selected(old('priority_object', $profile->priority_object) == '02')>02</option>
+                                        <option value="01"
+                                            @selected(old('priority_object', $profile->priority_object) == '01')>01</option>
                                     </select>
                                 </div>
                             </div>
@@ -267,11 +282,11 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Khu vực ưu tiên <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" name="khuvuc" required>
-                                        <option value="">Khu vực 3</option>
-                                        <option value="">Khu vực 2 - Nông thôn</option>
-                                        <option value="">Khu vực 2</option>
-                                        <option value="">Khu vực 1</option>
+                                    <select class="form-control select2" name="priority_area" required>
+                                        <option value="KV3"     @selected(old('priority_area',$profile->priority_area)=='KV3')>Khu vực 3</option>
+        <option value="KV2-NT" @selected(old('priority_area',$profile->priority_area)=='KV2-NT')>Khu vực 2 - Nông thôn</option>
+        <option value="KV2" @selected(old('priority_area',$profile->priority_area)=='KV2')>Khu vực 2</option>
+        <option value="KV1" @selected(old('priority_area',$profile->priority_area)=='KV1')>Khu vực 1</option>
                                     </select>
                                 </div>
                             </div>
@@ -281,175 +296,12 @@
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Năm tốt nghiệp THPT <span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control select2" name="namtotnghiep" id="namtotnghiep" required>
-
-                                    </select>
+                                    <input type="text" name="graduation_year" placeholder="Năm tốt nghiệp" class="form-control " value="{{ old('graduation_year',$profile->graduation_year) }}">
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Thông tin học tập:
-                                        <span class="text-danger">*</span></label> <br>
-                                    <span style="font-size: 12px">Nhập đầy đủ thông tin học tập 03 năm THPT </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">&nbsp;</label>
-                                    <br>
-                                    <p class="fw-bold text-center">Lớp 10</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Tỉnh - Thành Phố <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" id="tinh-select" name="tinh" required>
-                                        <option value="">-- Chọn tỉnh/thành --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Trường THPT <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" id="truong-select" name="truong" required>
-                                        <option value="">-- Chọn trường THPT --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Học lực <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
-                                        <option>Xuất sắc</option>
-                                        <option>Giỏi</option>
-                                        <option>Khá</option>
-                                        <option>Trung bình</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Hạnh kiểm <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
-                                        <option>Tốt</option>
-                                        <option>Khá</option>
-                                    </select>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">&nbsp;</label>
-                                    <br>
-                                    <p class="fw-bold text-center">Lớp 11</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Tỉnh - Thành Phố <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" id="tinh-select" name="tinh" required>
-                                        <option value="">-- Chọn tỉnh/thành --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Trường THPT <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" id="truong-select" name="truong" required>
-                                        <option value="">-- Chọn trường THPT --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Học lực <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
-                                        <option>Xuất sắc</option>
-                                        <option>Giỏi</option>
-                                        <option>Khá</option>
-                                        <option>Trung bình</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Hạnh kiểm <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
-                                        <option>Tốt</option>
-                                        <option>Khá</option>
-                                    </select>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">&nbsp;</label>
-                                    <br>
-                                    <p class="fw-bold text-center">Lớp 12</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Tỉnh - Thành Phố <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" id="tinh-select" name="tinh" required>
-                                        <option value="">-- Chọn tỉnh/thành --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Trường THPT <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" id="truong-select" name="truong" required>
-                                        <option value="">-- Chọn trường THPT --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Học lực <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
-                                        <option>Xuất sắc</option>
-                                        <option>Giỏi</option>
-                                        <option>Khá</option>
-                                        <option>Trung bình</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label class="fw-bold mb-2">Hạnh kiểm <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="" id="noisinh-select">
-                                        <option>Tốt</option>
-                                        <option>Khá</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="card card-secondary">
@@ -468,17 +320,17 @@
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Họ và tên
                                         <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Họ và tên">
+                                    <input type="text" name="contact_name" class="form-control" placeholder="Họ và tên" value="{{ old('contact_name',$profile->contact_name) }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Quan hệ <span class="text-danger">*</span></label>
-                                    <select class="form-control select2" name="khuvuc" required>
-                                        <option value="">Bố</option>
-                                        <option value="">Mẹ</option>
-                                        <option value="">Người giám hộ</option>
+                                    <select class="form-control select2" name="contact_relation" required>
+                                        <option value="Bố" @selected(old('contact_relation',$profile->contact_relation)=='Bố')>Bố</option>
+        <option value="Mẹ" @selected(old('contact_relation',$profile->contact_relation)=='Mẹ')>Mẹ</option>
+        <option value="Người giám hộ"  @selected(old('contact_relation',$profile->contact_relation)=='Người giám hộ')>Người giám hộ</option>
                                     </select>
                                 </div>
                             </div>
@@ -487,7 +339,7 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Số điện thoại <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Số điện thoại">
+                                    <input type="text" name="contact_phone" class="form-control" placeholder="Số điện thoại" value="{{ old('contact_phone',$profile->contact_phone) }}">
                                 </div>
                             </div>
 
@@ -495,7 +347,7 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label class="fw-bold mb-2">Email</label>
-                                    <input type="email" class="form-control" placeholder="Email">
+                                    <input name="contact_email" type="email" class="form-control" placeholder="Email" value="{{ old('contact_email',$profile->contact_email) }}">
                                 </div>
                             </div>
 
@@ -516,6 +368,53 @@
 @endsection
 
 @section('script')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const defaultFront = @json(asset('assets/img/mat-truoc-cc.png'));
+    const defaultBack  = @json(asset('assets/img/mat-sau-cc.png'));
+
+    function previewImage(inputEl, imgSelector, nameSelector, fallbackUrl) {
+        const img = document.querySelector(imgSelector);
+        const nameEl = document.querySelector(nameSelector);
+
+        if (!inputEl.files || !inputEl.files[0]) {
+            img.src = fallbackUrl;
+            if (nameEl) nameEl.textContent = '';
+            return;
+        }
+
+        const file = inputEl.files[0];
+        if (!file.type.match(/^image\//)) {
+            // Không phải ảnh → quay về ảnh mặc định
+            img.src = fallbackUrl;
+            if (nameEl) nameEl.textContent = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            img.src = e.target.result;
+            if (nameEl) nameEl.textContent = file.name;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    const frontInput = document.getElementById('cccd_front');
+    const backInput  = document.getElementById('cccd_back');
+
+    if (frontInput) {
+        frontInput.addEventListener('change', function () {
+            previewImage(frontInput, '#preview_front', '#cccd_front_name', defaultFront);
+        });
+    }
+    if (backInput) {
+        backInput.addEventListener('change', function () {
+            previewImage(backInput, '#preview_back', '#cccd_back_name', defaultBack);
+        });
+    }
+});
+</script>
+
     {{--
     <script>
         $(document).ready(function () {
@@ -527,17 +426,26 @@
         });
     </script> --}}
     <script>
-        $(document).ready(function () {
-            $.getJSON('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json', function (data) {
-                $.each(data, function (key, value) {
-                    $('#noisinh-select').append($('<option>', {
-                        value: value.name,
-                        text: value.name
-                    }));
-                });
+    $(document).ready(function () {
+        // Lấy giá trị cũ từ Laravel (old hoặc DB)
+        let currentValue = @json(old('birth_place', $profile->birth_place));
+
+        $.getJSON('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json', function (data) {
+            $.each(data, function (key, value) {
+                $('#noisinh-select').append($('<option>', {
+                    value: value.name,
+                    text: value.name
+                }));
             });
+
+            // Set selected khi edit hoặc khi submit lỗi
+            if (currentValue) {
+                $('#noisinh-select').val(currentValue).trigger('change');
+            }
         });
-    </script>
+    });
+</script>
+
     <script>
         $(document).ready(function () {
             $('#tinh-select, #truong-select').select2({ placeholder: 'Chọn...', width: '100%' });

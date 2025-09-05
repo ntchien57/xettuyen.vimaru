@@ -182,7 +182,7 @@
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="{{ route('home') }}" class="nav-link active">
+                                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                                     <i class="nav-icon fa-solid fa-gauge-high"></i>
                                     <p class="fw-bold">
                                         Trang chủ
@@ -191,16 +191,23 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{url('dao-tao/majors')}}" class="nav-link {{ request()->is('dao-tao/majors*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
                                     <p class="fw-bold">Quản lý chuyên ngành</p>
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item"> 
+                                <a href="{{ route('candidates.index')}}" class="nav-link {{ request()->routeIs('candidates.index') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <p class="fw-bold">Quản lý hồ sơ thí sinh</p>
+                                </a>
+                            </li>
+
+                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Quản lý hồ sơ</p>
+                                    <p class="fw-bold">Quản lý nguyện vọng</p>
                                 </a>
                             </li>
 
@@ -211,12 +218,12 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('xettuyen')}}" class="nav-link">
                                     <i class="fa-solid fa-square-poll-vertical"></i>
                                     <p class="fw-bold">Xét tuyển thí sinh</p>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             <li class="nav-header">TÀI KHOẢN</li>
                             <li class="nav-item">

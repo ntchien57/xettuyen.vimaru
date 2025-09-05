@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DaoTaoController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MajorController;
+use App\Http\Controllers\DaoTaoController;
+use App\Http\Controllers\CandidateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +30,16 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('home');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/profile', [UserController::class, 'save'])->name('profile.save');
 });
-
 // Đào tạo
 Route::prefix('dao-tao')->middleware('auth')->middleware('role:1')->group(function () {
     Route::get('/', [DaoTaoController::class, 'index'])->name('homeDaoTao');
     Route::get('/xettuyen', [DaoTaoController::class, 'xettuyen'])->name('xettuyen');
     Route::post('/xet-tuyen', [DaoTaoController::class, 'chayXetTuyen'])->name('xettuyen.chay');
+    Route::resource('/majors', MajorController::class)->except(['create','show','edit']);
+    Route::get('/candidates', [CandidateController::class, 'index'])
+        ->name('candidates.index');
 });
 
 // Hiệu trưởng - Boss
