@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(\App\Models\Profile::class);
     }
+
+    public function wishes()
+    {
+        return $this->hasMany(\App\Models\Wish::class);
+    }
 }

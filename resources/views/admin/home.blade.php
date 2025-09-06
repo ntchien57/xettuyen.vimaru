@@ -30,12 +30,10 @@
     <div class="app-content">
         <!--begin::Container-->
         <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-               <p>Trang quản trị viên</p>
-            </div>
+            <img class="w-100" src="{{ asset('assets/img/bg-login.png') }}" alt="">
+
             <!--end::Row-->
-            
+
         </div>
         <!--end::Container-->
     </div>

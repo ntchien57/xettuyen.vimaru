@@ -140,7 +140,19 @@
 
                             </li>
 
+                          
+
                             <li class="nav-header">TÀI KHOẢN</li>
+                              <li class="nav-item">
+                                <a href="{{ route('conversion')}}" class="nav-link ">
+                                    <i class=" nav-icon fas fa-money-check"></i>
+                                    <p class="fw-bold">
+                                        Công cụ quy đổi điểm
+                                    </p>
+                                </a>
+
+                            </li>
+
                             <li class="nav-item">
                                 <a href="{{ route('logout') }}" class="nav-link">
                                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -168,28 +180,35 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('dao-tao/majors') }}" class="nav-link {{ request()->is('dao-tao/majors*') ? 'active' : '' }}">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <i class="fas fa-graduation-cap"></i>
                                     <p class="fw-bold">Quản lý chuyên ngành</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ url('dao-tao/combo-offsets') }}" class="nav-link {{ request()->is('dao-tao/combo-offsets*') ? 'active' : '' }}">
+                                    <i class="fas fa-layer-group"></i>
+                                    <p class="fw-bold">Quản lý độ chênh tổ hợp</p>
                                 </a>
                             </li>
 
                             <li class="nav-item"> 
                                 <a href="{{ route('candidates.index') }}" class="nav-link {{ request()->routeIs('candidates.index') ? 'active' : '' }}">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <i class="fas fa-users"></i>
                                     <p class="fw-bold">Quản lý hồ sơ thí sinh</p>
                                 </a>
                             </li>
 
                              <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                   <i class="fas fa-star"></i>
                                     <p class="fw-bold">Quản lý nguyện vọng</p>
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
+                                    <i class="fas fa-bullhorn"></i>
                                     <p class="fw-bold">Quản lý kết quả xét tuyển</p>
                                 </a>
                             </li>

@@ -10,8 +10,16 @@ class Major extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code','name','group_name','exam_combos','is_advanced','is_optional',
-        'taught_in_english','order_no','active','note'
+        'code',
+        'name',
+        'group_name',
+        'exam_combos',
+        'is_advanced',
+        'is_optional',
+        'taught_in_english',
+        'order_no',
+        'active',
+        'note'
     ];
 
     protected $casts = [
@@ -21,4 +29,9 @@ class Major extends Model
         'taught_in_english'  => 'boolean',
         'active'             => 'boolean',
     ];
+
+    public function wishes()
+    {
+        return $this->hasMany(\App\Models\Wish::class, 'major_code', 'code');
+    }
 }
