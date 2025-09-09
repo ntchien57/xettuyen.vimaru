@@ -19,7 +19,9 @@ class Major extends Model
         'taught_in_english',
         'order_no',
         'active',
-        'note'
+        'note',
+        'quota',
+        'cutoff_score',
     ];
 
     protected $casts = [
@@ -28,6 +30,8 @@ class Major extends Model
         'is_optional'        => 'boolean',
         'taught_in_english'  => 'boolean',
         'active'             => 'boolean',
+        'quota'             => 'integer',  // <— thêm
+        'cutoff_score'      => 'float',    // <— thêm
     ];
 
     public function wishes()

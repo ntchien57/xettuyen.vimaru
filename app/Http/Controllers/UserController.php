@@ -217,4 +217,8 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Đã lưu nguyện vọng.');
     }
+
+    public function result(){
+        return view('user.result');
+    }
 }

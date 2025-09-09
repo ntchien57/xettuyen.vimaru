@@ -6,7 +6,7 @@
 
         <div class="row">
             {{-- Form thêm mới --}}
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Thêm chuyên ngành</h3>
@@ -39,11 +39,13 @@
                             <div class="row">
                                 <div class="col-12 mb-2">
                                     <label class="fw-bold">Thứ tự</label>
-                                    <input type="number" name="order_no" class="form-control" value="0" min="0">
+                                    <input type="number" name="order_no" class="form-control" value="0"
+                                        min="0">
                                 </div>
                                 <div class="col-6 mb-2 d-flex align-items-end gap-2 d-none">
                                     <div class="form-check me-3">
-                                        <input class="form-check-input" type="checkbox" name="active" value="1" checked>
+                                        <input class="form-check-input" type="checkbox" name="active" value="1"
+                                            checked>
                                         <label class="form-check-label">Kích hoạt</label>
                                     </div>
                                 </div>
@@ -66,10 +68,23 @@
                                     <label class="form-check-label" for="taught_in_english">Giảng dạy bằng tiếng Anh</label>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="fw-bold">Chỉ tiêu</label>
+                                    <input type="number" min="0" name="quota" class="form-control"
+                                        value="{{ old('quota', $major->quota ?? '') }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="fw-bold">Điểm chuẩn</label>
+                                    <input type="number" step="0.01" min="0" max="30" name="cutoff_score"
+                                        class="form-control" value="{{ old('cutoff_score', $major->cutoff_score ?? '') }}">
+                                </div>
+                            </div>
 
                             <div class="mb-2">
                                 <label class="fw-bold">Ghi chú</label>
-                                <input type="text" name="note" class="form-control" placeholder="Ghi chú thêm (tuỳ chọn)">
+                                <input type="text" name="note" class="form-control"
+                                    placeholder="Ghi chú thêm (tuỳ chọn)">
                             </div>
                         </div>
                         <div class="card-footer text-end">
@@ -80,7 +95,7 @@
             </div>
 
             {{-- Danh sách --}}
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Danh sách chuyên ngành</h3>
@@ -95,6 +110,8 @@
                                     <th>Tổ hợp</th>
                                     <th class="text-center" style="width: 120px">Giảng dạy</th>
                                     <th class="text-center" style="width: 110px">Thứ tự</th>
+                                    <th class="text-center" style="width: 110px">Chỉ tiêu</th>
+                                    <th class="text-center" style="width: 110px">Điểm chuẩn</th>
                                     <th class="text-center" style="width: 140px">Thao tác</th>
                                 </tr>
                             </thead>
@@ -104,33 +121,48 @@
                                         <td><span class="badge bg-dark">{{ $m->code }}</span></td>
                                         <td>
                                             <div class="fw-semibold">{{ $m->name }}</div>
-                                            @if($m->note)<small class="text-muted">{{ $m->note }}</small>@endif
+                                            @if ($m->note)
+                                                <small class="text-muted">{{ $m->note }}</small>
+                                            @endif
                                         </td>
                                         <td>{{ $m->group_name }}</td>
                                         <td>
-                                            @if($m->exam_combos)
+                                            @if ($m->exam_combos)
                                                 @foreach ($m->exam_combos as $c)
                                                     <span class="badge bg-secondary">{{ $c }}</span>
                                                 @endforeach
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            @if($m->is_advanced) <span class="badge bg-info">NC</span> @endif
-                                            @if($m->is_optional) <span class="badge bg-warning text-dark">Chọn</span> @endif
-                                            @if($m->taught_in_english) <span class="badge bg-success">EN</span> @endif
-                                            @if(!$m->active) <span class="badge bg-danger">Off</span> @endif
+                                            @if ($m->is_advanced)
+                                                <span class="badge bg-info">NC</span>
+                                            @endif
+                                            @if ($m->is_optional)
+                                                <span class="badge bg-warning text-dark">Chọn</span>
+                                            @endif
+                                            @if ($m->taught_in_english)
+                                                <span class="badge bg-success">EN</span>
+                                            @endif
+                                            @if (!$m->active)
+                                                <span class="badge bg-danger">Off</span>
+                                            @endif
                                         </td>
                                         <td class="text-center">{{ $m->order_no }}</td>
+                                        <td class="text-center">{{ $m->quota }}</td>
+                                        <td class="text-center">{{ $m->cutoff_score }}</td>
                                         <td class="text-center">
                                             <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editMajorModal" data-major='@json($m)'>
+                                                data-bs-target="#editMajorModal"
+                                                data-major='@json($m)'>
                                                 <i class="fas fa-pencil"></i>
                                             </button>
 
-                                            <form action="{{ route('majors.destroy', $m) }}" method="POST" class="d-inline"
+                                            <form action="{{ route('majors.destroy', $m) }}" method="POST"
+                                                class="d-inline"
                                                 onsubmit="return confirm('Xoá chuyên ngành {{ $m->name }}?');">
                                                 @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i
+                                                        class="fas fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -164,6 +196,7 @@
                         <h5 class="modal-title">Sửa chuyên ngành</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="row g-2">
                             <div class="col-md-3">
@@ -174,6 +207,7 @@
                                 <label class="fw-bold">Tên chuyên ngành</label>
                                 <input type="text" name="name" class="form-control" required>
                             </div>
+
                             <div class="col-md-6">
                                 <label class="fw-bold">Nhóm</label>
                                 <input type="text" name="group_name" class="form-control">
@@ -186,15 +220,16 @@
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="col-md-12 d-flex gap-3 my-2">
                                 <div class="form-check d-none">
-                                    <input class="form-check-input" type="checkbox" name="is_advanced" id="edit_is_advanced"
-                                        value="1">
+                                    <input class="form-check-input" type="checkbox" name="is_advanced"
+                                        id="edit_is_advanced" value="1">
                                     <label class="form-check-label" for="edit_is_advanced">(nâng cao)</label>
                                 </div>
                                 <div class="form-check d-none">
-                                    <input class="form-check-input" type="checkbox" name="is_optional" id="edit_is_optional"
-                                        value="1">
+                                    <input class="form-check-input" type="checkbox" name="is_optional"
+                                        id="edit_is_optional" value="1">
                                     <label class="form-check-label" for="edit_is_optional">(chọn)</label>
                                 </div>
                                 <div class="form-check">
@@ -209,16 +244,30 @@
                                     <label class="form-check-label" for="edit_active">Kích hoạt</label>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+
+                            {{-- Hàng thông số: Thứ tự / Chỉ tiêu / Điểm chuẩn --}}
+                            <div class="col-md-4">
                                 <label class="fw-bold">Thứ tự</label>
                                 <input type="number" name="order_no" class="form-control" min="0">
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-4">
+                                <label class="fw-bold">Chỉ tiêu</label>
+                                <input type="number" name="quota" class="form-control" min="0"
+                                    placeholder="VD: 120">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fw-bold">Điểm chuẩn</label>
+                                <input type="number" name="cutoff_score" class="form-control" step="0.01"
+                                    min="0" max="30" placeholder="VD: 22.50">
+                            </div>
+
+                            <div class="col-md-12">
                                 <label class="fw-bold">Ghi chú</label>
                                 <input type="text" name="note" class="form-control">
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="submit">Lưu</button>
                         <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Đóng</button>
@@ -227,21 +276,69 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('script')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Nếu dùng select2
-            $('.select2, .select2-edit').select2({ width: '100%' });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Helper
+            const up = v => (v ?? '').toString().toUpperCase().replace(/\s+/g, '').trim();
+
+            function ensureOptions(selectEl, values) {
+                const set = new Set([...selectEl.options].map(o => o.value));
+                values.forEach(v => {
+                    if (v && !set.has(v)) {
+                        const opt = new Option(v, v, true, false);
+                        selectEl.add(opt);
+                        set.add(v);
+                    }
+                });
+            }
+
+            // Khởi tạo select2
+            $('.select2').select2({
+                width: '100%'
+            });
+
+            // Cho phép thêm tổ hợp mới (tags)
+            const comboPattern = /^[A-Z0-9-]{2,10}$/; // cho phép A-Z, 0-9, "-" (độ dài 2–10)
+            $('.select2-edit').select2({
+                width: '100%',
+                tags: true,
+                tokenSeparators: [',', ' '],
+                createTag: function(params) {
+                    let term = up(params.term);
+                    if (!term || !comboPattern.test(term)) {
+                        // Trả null = không tạo tag nếu không hợp lệ
+                        return null;
+                    }
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true
+                    };
+                },
+                // Hiển thị luôn UPPERCASE
+                templateSelection: function(data) {
+                    data.text = up(data.text);
+                    return data.text;
+                },
+                templateResult: function(data) {
+                    return up(data.text || data.id || '');
+                }
+            });
 
             const modal = document.getElementById('editMajorModal');
-            modal.addEventListener('show.bs.modal', function (ev) {
+            modal.addEventListener('show.bs.modal', function(ev) {
                 const btn = ev.relatedTarget;
-                const m = JSON.parse(btn.getAttribute('data-major'));
+                const m = JSON.parse(btn.getAttribute('data-major') || '{}');
 
                 const form = document.getElementById('editMajorForm');
-                form.action = "{{ url('dao-tao/majors') }}/" + m.id;
+                form.action = "{{ url('dao-tao/majors') }}/" + (m.id ?? '');
+
+                form.querySelector('[name="quota"]').value = (m.quota ?? '');
+                form.querySelector('[name="cutoff_score"]').value = (m.cutoff_score ?? '');
 
                 form.querySelector('[name="code"]').value = m.code ?? '';
                 form.querySelector('[name="name"]').value = m.name ?? '';
@@ -255,13 +352,26 @@
                 form.querySelector('[name="taught_in_english"]').checked = !!m.taught_in_english;
                 form.querySelector('[name="active"]').checked = !!m.active;
 
-                // exam_combos
-                const sel = $(form).find('.select2-edit');
-                sel.val([]).trigger('change');
-                if (Array.isArray(m.exam_combos)) {
-                    sel.val(m.exam_combos).trigger('change');
-                }
+                // exam_combos (multi)
+                const selJq = $(form).find('.select2-edit');
+                const selEl = selJq.get(0);
+                let combos = Array.isArray(m.exam_combos) ? m.exam_combos.map(up) : [];
+
+                // Thêm option nếu thiếu rồi set value
+                ensureOptions(selEl, combos);
+                selJq.val(combos).trigger('change');
+            });
+
+            // Chuẩn hoá trước khi submit: UPPERCASE + loại trùng
+            document.getElementById('editMajorForm').addEventListener('submit', function() {
+                const selJq = $(this).find('.select2-edit');
+                const selEl = selJq.get(0);
+                let vals = selJq.val() || [];
+                vals = [...new Set(vals.map(up).filter(v => comboPattern.test(v)))]; // unique + hợp lệ
+                ensureOptions(selEl, vals);
+                selJq.val(vals).trigger('change.select2');
             });
         });
     </script>
+
 @endsection

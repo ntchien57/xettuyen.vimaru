@@ -131,7 +131,7 @@
 
 
                              <li class="nav-item">
-                                <a href="" class="nav-link ">
+                                <a href="{{ route('result')}}" class="nav-link ">
                                     <i class="nav-icon fas fa-chart-bar"></i>
                                     <p class="fw-bold">
                                         Kết quả xét tuyển
@@ -200,14 +200,14 @@
                             </li>
 
                              <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{route('wishes.index')}}" class="nav-link">
                                    <i class="fas fa-star"></i>
                                     <p class="fw-bold">Quản lý nguyện vọng</p>
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('ketquaxettuyen')}}" class="nav-link">
                                     <i class="fas fa-bullhorn"></i>
                                     <p class="fw-bold">Quản lý kết quả xét tuyển</p>
                                 </a>
