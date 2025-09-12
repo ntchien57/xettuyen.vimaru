@@ -53,6 +53,10 @@ class AuthController extends Controller
             return back()->with('error', 'Tài khoản không tồn tại')->withInput();
         }
 
+        if ($user->active == 0) {
+            return back()->with('error', 'Tài khoản bị khóa')->withInput();
+        }
+
         if (!Hash::check($request->password, $user->matkhau)) {
             return back()->with('error', 'Mật khẩu không đúng')->withInput();
         }

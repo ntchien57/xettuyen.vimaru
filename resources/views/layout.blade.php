@@ -119,7 +119,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('registerWishes')}}" class="nav-link ">
+                                <a href="{{ route('registerWishes') }}" class="nav-link ">
                                     {{-- <i class="nav-icon fa-solid fa-user"></i> --}}
                                     <i class="nav-icon fas fa-registered"></i>
                                     <p class="fw-bold">
@@ -131,7 +131,7 @@
 
 
                              <li class="nav-item">
-                                <a href="{{ route('result')}}" class="nav-link ">
+                                <a href="{{ route('result') }}" class="nav-link ">
                                     <i class="nav-icon fas fa-chart-bar"></i>
                                     <p class="fw-bold">
                                         Kết quả xét tuyển
@@ -144,7 +144,7 @@
 
                             <li class="nav-header">TÀI KHOẢN</li>
                               <li class="nav-item">
-                                <a href="{{ route('conversion')}}" class="nav-link ">
+                                <a href="{{ route('conversion') }}" class="nav-link ">
                                     <i class=" nav-icon fas fa-money-check"></i>
                                     <p class="fw-bold">
                                         Công cụ quy đổi điểm
@@ -170,13 +170,21 @@
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                                <a href="{{ route('homeDaoTao') }}" class="nav-link {{ request()->routeIs('homeDaoTao') ? 'active' : '' }}">
                                     <i class="nav-icon fa-solid fa-gauge-high"></i>
                                     <p class="fw-bold">
                                         Trang chủ
                                     </p>
                                 </a>
 
+                            </li>
+                             <li class="nav-item">
+                                <a href="{{ route('daotao.account') }}" class="nav-link ">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p class="fw-bold">
+                                        Quản lý tài khoản
+                                    </p>
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('dao-tao/majors') }}" class="nav-link {{ request()->is('dao-tao/majors*') ? 'active' : '' }}">
@@ -200,30 +208,23 @@
                             </li>
 
                              <li class="nav-item">
-                                <a href="{{route('wishes.index')}}" class="nav-link">
+                                <a href="{{ route('wishes.index') }}" class="nav-link">
                                    <i class="fas fa-star"></i>
                                     <p class="fw-bold">Quản lý nguyện vọng</p>
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('ketquaxettuyen')}}" class="nav-link">
+                                <a href="{{ route('ketquaxettuyen') }}" class="nav-link">
                                     <i class="fas fa-bullhorn"></i>
                                     <p class="fw-bold">Quản lý kết quả xét tuyển</p>
                                 </a>
                             </li>
 
-                            {{-- <li class="nav-item">
-                                <a href="{{ route('xettuyen')}}" class="nav-link">
-                                    <i class="fa-solid fa-square-poll-vertical"></i>
-                                    <p class="fw-bold">Xét tuyển thí sinh</p>
-                                </a>
-                            </li> --}}
-
                             <li class="nav-header">TÀI KHOẢN</li>
                             <li class="nav-item">
                                 <a href="{{ route('logout') }}" class="nav-link">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <i class="nav-icon fa-solid fa-right-from-bracket"></i>
                                     <p class="fw-bold">ĐĂNG XUẤT</p>
                                 </a>
                             </li>
@@ -236,16 +237,7 @@
                     <nav class="mt-2">
                         <!--begin::Sidebar Menu-->
                         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
-                            data-accordion="false">
-                            <li class="nav-item">
-                                <a href="{{ route('account') }}" class="nav-link ">
-                                    <i class="nav-icon fa-solid fa-user"></i>
-                                    <p class="fw-bold">
-                                        Quản lý tài khoản
-                                    </p>
-                                </a>
-                            </li>
-
+                            data-accordion="false">                           
                             <li class="nav-item">
                                 <a href="javascript:;" class="nav-link active">
                                     <i class="nav-icon fa-solid fa-gauge-high"></i>

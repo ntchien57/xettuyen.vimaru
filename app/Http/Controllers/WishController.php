@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wish;
+use App\Exports\AcceptedWishesExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WishController extends Controller
 {
@@ -21,8 +23,8 @@ class WishController extends Controller
             ->when($q !== '', function ($qr) use ($q) {
                 $qr->whereHas('user', function ($u) use ($q) {
                     $u->where('hoten', 'like', "%{$q}%")
-                      ->orWhere('email', 'like', "%{$q}%")
-                      ->orWhere('cccd', 'like', "%{$q}%");
+                        ->orWhere('email', 'like', "%{$q}%")
+                        ->orWhere('cccd', 'like', "%{$q}%");
                 });
             })
             ->orderBy('user_id')
@@ -108,11 +110,11 @@ class WishController extends Controller
 
             $rows[] = [
                 'id'        => (int) $r->id,
-                'student_id'=> (int) $r->student_id,
+                'student_id' => (int) $r->student_id,
                 'student_name' => $r->student_name,
-                'major_code'=> $r->major_code,
+                'major_code' => $r->major_code,
                 'pref_rank' => (int) $r->pref_rank,
-                'score_line'=> $scoreLine, // điểm dòng (đã quy về D01 nếu có)
+                'score_line' => $scoreLine, // điểm dòng (đã quy về D01 nếu có)
                 'score_raw' => is_null($r->raw_score) ? $scoreLine : (float) $r->raw_score, // tie-break phụ
             ];
         }
@@ -138,18 +140,23 @@ class WishController extends Controller
         unset($r);
 
         // 6) Deferred Acceptance theo quota, tie-policy
-        $holds = []; foreach ($quota as $maj => $q) $holds[$maj] = [];
+        $holds = [];
+        foreach ($quota as $maj => $q) $holds[$maj] = [];
         $assigned = [];                         // student_id -> major_code tạm
-        $nextChoiceIdx = []; foreach ($byStudent as $sid => $_) $nextChoiceIdx[$sid] = 0;
+        $nextChoiceIdx = [];
+        foreach ($byStudent as $sid => $_) $nextChoiceIdx[$sid] = 0;
 
         // comparator
         $cmp = function ($ia, $ib) use (&$rows) {
-            $a = $rows[$ia]; $b = $rows[$ib];
+            $a = $rows[$ia];
+            $b = $rows[$ib];
             // 1) score_global ↓
-            $ga = $a['score_global']; $gb = $b['score_global'];
+            $ga = $a['score_global'];
+            $gb = $b['score_global'];
             if ($ga !== $gb) return ($ga <=> $gb) * -1; // null sẽ đứng cuối
             // 2) score_raw/line ↓ (phụ; nếu không có raw_score, đã gán = score_line)
-            $sa = $a['score_raw']; $sb = $b['score_raw'];
+            $sa = $a['score_raw'];
+            $sb = $b['score_raw'];
             if ($sa !== $sb) return ($sa <=> $sb) * -1;
             // 3) pref_rank ↑
             if ($a['pref_rank'] !== $b['pref_rank']) return ($a['pref_rank'] <=> $b['pref_rank']);
@@ -164,7 +171,8 @@ class WishController extends Controller
             $changed = false;
 
             // Proposals by major
-            $proposals = []; foreach ($quota as $maj => $_) $proposals[$maj] = [];
+            $proposals = [];
+            foreach ($quota as $maj => $_) $proposals[$maj] = [];
 
             // mỗi thí sinh chưa đậu → nộp NV kế tiếp hợp lệ (có score_global)
             foreach ($byStudent as $sid => $idxs) {
@@ -203,7 +211,11 @@ class WishController extends Controller
                         for ($idx = $q; $idx < count($pool); $idx++) {
                             $i = $pool[$idx];
                             $s = $rows[$i]['score_global'];
-                            if ($s === $lastScore) $keep[] = $i; else { $drop = array_slice($pool, $idx); break; }
+                            if ($s === $lastScore) $keep[] = $i;
+                            else {
+                                $drop = array_slice($pool, $idx);
+                                break;
+                            }
                         }
                     } else {
                         $drop = $pool;
@@ -256,4 +268,191 @@ class WishController extends Controller
 
         return back()->with('success', $sumMsg);
     }
+
+    public function runCutoff(Request $request)
+    {
+        // unique per student (mặc định): 1 thí sinh chỉ đỗ 1 NV đầu tiên đạt cutoff
+        $uniquePerStudent = !$request->boolean('multi', false);
+
+        // 1) Lấy các ngành có điểm chuẩn
+        $majors = DB::table('majors')
+            ->select('code as major_code', 'name as major_name', 'cutoff_score')
+            ->where('active', 1)
+            ->whereNotNull('cutoff_score')
+            ->orderBy('code')
+            ->get();
+
+        if ($majors->isEmpty()) {
+            return back()->with('error', 'Chưa cấu hình điểm chuẩn cho bất kỳ chuyên ngành nào.');
+        }
+
+        $cutoff = $majors->pluck('cutoff_score', 'major_code')
+            ->map(fn($v) => (float) $v)
+            ->all();
+
+        // 2) Bản đồ độ chênh (nếu cần quy đổi từ raw_score + combo → D01)
+        $deltaMap = DB::table('combo_offsets')
+            ->where('base_code', 'D01')
+            ->where('active', 1)
+            ->pluck('delta', 'combo_code')
+            ->map(fn($v) => (float) $v)
+            ->all();
+
+        // 3) Lấy toàn bộ nguyện vọng thuộc các ngành có cutoff
+        $apps = DB::table('wishes as w')
+            ->join('users as u', 'u.id', '=', 'w.user_id')
+            ->whereIn('w.major_code', array_keys($cutoff))
+            ->select([
+                'w.id',
+                'w.user_id as student_id',
+                'u.hoten as student_name',
+                'w.major_code',
+                'w.order_no as pref_rank',
+                'w.converted_score',
+                'w.raw_score',
+                'w.exam_combo',
+            ])
+            ->orderBy('w.user_id')
+            ->orderBy('w.order_no')
+            ->get();
+
+        if ($apps->isEmpty()) {
+            return back()->with('error', 'Không có dữ liệu nguyện vọng hợp lệ để xét theo điểm chuẩn.');
+        }
+
+        // 4) Tính điểm D01 cho từng nguyện vọng (score_line)
+        $rows = [];
+        foreach ($apps as $r) {
+            $scoreLine = null;
+            if (!is_null($r->converted_score)) {
+                $scoreLine = (float) $r->converted_score;
+            } elseif (!is_null($r->raw_score) && $r->exam_combo) {
+                $delta = $deltaMap[$r->exam_combo] ?? null;
+                if (!is_null($delta)) {
+                    $scoreLine = (float) $r->raw_score + (float) $delta;
+                }
+            }
+
+            $rows[] = [
+                'id'          => (int) $r->id,
+                'student_id'  => (int) $r->student_id,
+                'student_name' => $r->student_name,
+                'major_code'  => $r->major_code,
+                'pref_rank'   => (int) $r->pref_rank,
+                'score_line'  => $scoreLine, // điểm quy đổi D01 của dòng (có thể null nếu không đủ dữ liệu)
+            ];
+        }
+
+        // 5) Gom theo thí sinh
+        $byStudent = [];
+        foreach ($rows as $i => $r) {
+            $byStudent[$r['student_id']][] = $i;
+        }
+        // Đảm bảo thứ tự NV tăng dần
+        foreach ($byStudent as $sid => &$idxs) {
+            usort($idxs, fn($a, $b) => $rows[$a]['pref_rank'] <=> $rows[$b]['pref_rank']);
+        }
+        unset($idxs);
+
+        // 6) Xét theo cutoff
+        $acceptedWishIds = [];
+        $acceptedByMajor = [];
+
+        if ($uniquePerStudent) {
+            // Mỗi thí sinh: nhận NV đầu tiên đạt cutoff
+            foreach ($byStudent as $sid => $idxs) {
+                foreach ($idxs as $i) {
+                    $maj = $rows[$i]['major_code'];
+                    $s   = $rows[$i]['score_line'];
+                    $cut = $cutoff[$maj] ?? null;
+                    if (!is_null($s) && !is_null($cut) && $s >= $cut) {
+                        $acceptedWishIds[] = $rows[$i]['id'];
+                        $acceptedByMajor[$maj] = ($acceptedByMajor[$maj] ?? 0) + 1;
+                        break; // chỉ nhận NV đầu tiên đạt cutoff
+                    }
+                }
+            }
+        } else {
+            // Nhận TẤT CẢ các NV đạt cutoff (một thí sinh có thể đỗ nhiều ngành)
+            foreach ($rows as $r) {
+                $maj = $r['major_code'];
+                $s   = $r['score_line'];
+                $cut = $cutoff[$maj] ?? null;
+                if (!is_null($s) && !is_null($cut) && $s >= $cut) {
+                    $acceptedWishIds[] = $r['id'];
+                    $acceptedByMajor[$maj] = ($acceptedByMajor[$maj] ?? 0) + 1;
+                }
+            }
+        }
+
+        // 7) Ghi DB
+        if ($uniquePerStudent) {
+            // Đưa toàn bộ NV của những thí sinh tham gia về 'rejected', rồi set 'accepted' cho NV đỗ
+            $studentIds = array_keys($byStudent);
+            DB::transaction(function () use ($studentIds, $acceptedWishIds) {
+                DB::table('wishes')->whereIn('user_id', $studentIds)->update(['status' => 'rejected']);
+                if (!empty($acceptedWishIds)) {
+                    DB::table('wishes')->whereIn('id', $acceptedWishIds)->update(['status' => 'accepted']);
+                }
+            });
+        } else {
+            // Cho phép đỗ nhiều ngành: chỉ cập nhật hàng đỗ → accepted, không đụng các hàng khác
+            if (!empty($acceptedWishIds)) {
+                DB::table('wishes')->whereIn('id', $acceptedWishIds)->update(['status' => 'accepted']);
+            }
+        }
+
+        // 8) Tổng kết
+        $totalAccepted = count($acceptedWishIds);
+        $sumMsg = "Xét theo điểm chuẩn: {$totalAccepted} nguyện vọng đỗ. ";
+        if ($acceptedByMajor) {
+            $parts = [];
+            foreach ($acceptedByMajor as $maj => $cnt) $parts[] = "$maj: $cnt";
+            $sumMsg .= 'Phân bổ: ' . implode(' | ', $parts);
+        }
+
+        return back()->with('success', $sumMsg);
+    }
+
+    public function exportAllAccepted(Request $request)
+    {
+        // mặc định sắp điểm cao → thấp; cho phép ?sort=asc nếu muốn
+        $sort = strtolower($request->input('sort', 'desc'));
+        $sort = in_array($sort, ['asc', 'desc'], true) ? $sort : 'desc';
+
+        $builder = DB::table('wishes as w')
+            ->join('users as u', 'u.id', '=', 'w.user_id')
+            ->leftJoin('majors as m', 'm.code', '=', 'w.major_code')
+            ->leftJoin('combo_offsets as co', function ($j) {
+                $j->on('co.combo_code', '=', 'w.exam_combo')
+                    ->where('co.base_code', 'D01')
+                    ->where('co.active', 1);
+            })
+            ->where('w.status', 'accepted')
+            ->select([
+                'w.id',
+                'w.user_id',
+                'w.exam_id',
+                'w.major_code',
+                'w.order_no',
+                'w.converted_score',
+                'w.raw_score',
+                'w.exam_combo',
+                'w.updated_at',
+                'u.hoten as student_name',
+                'u.email',
+                'u.cccd',
+                'm.name as major_name',
+                DB::raw('COALESCE(w.converted_score, w.raw_score + COALESCE(co.delta,0)) as score_d01'),
+            ])
+            ->orderBy('w.major_code')
+            ->orderBy('score_d01', $sort)
+            ->orderBy('w.order_no')
+            ->orderBy('w.user_id');
+
+        $filename = 'accepted_all_' . now()->format('Ymd_His') . '.xlsx';
+        return Excel::download(new AcceptedWishesExport($builder), $filename);
+    }
+
+    
 }

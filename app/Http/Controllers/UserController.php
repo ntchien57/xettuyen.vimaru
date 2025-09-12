@@ -219,6 +219,41 @@ class UserController extends Controller
     }
 
     public function result(){
-        return view('user.result');
+       $userId = Auth::id();
+
+        // Lấy danh sách nguyện vọng của thí sinh + tên ngành + điểm quy đổi D01 (nếu thiếu thì quy đổi từ raw_score + delta)
+        $wishes = DB::table('wishes as w')
+            ->leftJoin('majors as m', 'm.code', '=', 'w.major_code')
+            ->leftJoin('combo_offsets as co', function ($j) {
+                $j->on('co.combo_code', '=', 'w.exam_combo')
+                  ->where('co.base_code', 'D01')
+                  ->where('co.active', 1);
+            })
+            ->where('w.user_id', $userId)
+            ->select([
+                'w.id',
+                'w.order_no',
+                'w.major_code',
+                'w.status',
+                'w.exam_id',
+                'w.exam_combo',
+                'w.converted_score',
+                'w.raw_score',
+                'w.updated_at',
+                'm.name as major_name',
+                DB::raw('COALESCE(w.converted_score, w.raw_score + COALESCE(co.delta,0)) as score_d01'),
+            ])
+            ->orderBy('w.order_no')
+            ->get();
+
+        $accepted = $wishes->firstWhere('status', 'accepted');
+
+        $stats = [
+            'total'    => $wishes->count(),
+            'accepted' => $wishes->where('status', 'accepted')->count(),
+            'rejected' => $wishes->where('status', 'rejected')->count(),
+            'pending'  => $wishes->whereNotIn('status', ['accepted','rejected'])->count(),
+        ];
+        return view('user.result', compact('wishes', 'accepted', 'stats'));
     }
 }

@@ -10,9 +10,14 @@
                 <div class="card-tools d-flex align-items-center flex-wrap gap-2">
                     {{-- Nhóm nút chế độ xét tuyển --}}
                     <div class="btn-group me-2" role="group" aria-label="Xét tuyển">
-                        {{-- <a href="" class="btn btn-sm btn-warning mx-3">
-                            <i class="fa-solid fa-chart-line me-1"></i> Xét theo điểm
-                        </a> --}}
+                        
+                        <form action="{{ route('wishes.runCutoff') }}" method="POST"
+                            onsubmit="return confirm('Chạy xét tuyển các thí sinh có điểm lớn hơn hoặc bằng điểm chuẩn')">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-warning mx-3">
+                                <i class="fa-solid fa-chart-line me-1"></i> Xét theo điểm chuẩn
+                            </button>
+                        </form>
                         <form action="{{ route('wishes.runQuota') }}" method="POST"
                             onsubmit="return confirm('Chạy xét tuyển (cho vượt nếu đồng điểm ở biên)?');">
                             @csrf

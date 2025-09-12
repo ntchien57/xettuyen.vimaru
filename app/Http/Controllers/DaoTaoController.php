@@ -2,15 +2,130 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DaoTaoController extends Controller
 {
     public function index()
     {
-        return view('daotao.home');
+        // Tổng số hồ sơ thí sinh: đếm profile của user role = 0
+        $totalProfiles = DB::table('profiles as p')
+            ->join('users as u', 'u.id', '=', 'p.user_id')
+            ->where('u.role', 0)
+            ->count();
+
+        // Tổng số nguyện vọng
+        $totalWishes = DB::table('wishes')->count();
+
+        // Tổng số thí sinh đỗ (đếm DISTINCT user_id có ít nhất 1 NV accepted)
+        $acceptedStudents = DB::table('wishes')
+            ->where('status', 'accepted')
+            ->distinct('user_id')
+            ->count('user_id');
+
+        // Tổng số nguyện vọng bị loại
+        $rejectedWishes = DB::table('wishes')
+            ->where('status', 'rejected')
+            ->count();
+
+        return view('daotao.home', compact(
+            'totalProfiles',
+            'totalWishes',
+            'acceptedStudents',
+            'rejectedWishes'
+        ));
+    }
+
+    public function account(Request $request)
+    {
+        $q    = trim($request->input('q', ''));
+        $role = $request->input('role', ''); // '' | 0 | 1 ...
+
+        $query = User::query()->select('id', 'hoten', 'email', 'cccd', 'role', 'active', 'created_at');
+
+        if ($q !== '') {
+            $query->where(function ($s) use ($q) {
+                $s->where('hoten', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%")
+                    ->orWhere('cccd', 'like', "%{$q}%");
+            });
+        }
+        if ($role !== '' && $role !== null) {
+            $query->where('role', (int)$role);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')
+            ->paginate(20)
+            ->appends($request->only('q', 'role'));
+
+        return view('daotao.account', compact('users', 'q', 'role'));
+    }
+
+    // CREATE
+    public function accountStore(Request $request)
+    {
+        $data = $request->validate([
+            'hoten'   => ['required', 'string', 'max:255'],
+            'email'   => ['required', 'email', 'max:255', 'unique:users,email'],
+            'cccd'    => ['nullable', 'string', 'max:30', 'unique:users,cccd'],
+            'matkhau' => ['required', 'string', 'min:6'],
+            'role'    => ['required', 'integer'],   // ví dụ: 0 = thí sinh, 1 = quản trị
+            'active'  => ['nullable', 'boolean'],
+        ], [], [
+            'hoten' => 'Họ tên',
+            'cccd'  => 'CCCD',
+        ]);
+
+        $data['matkhau'] = Hash::make($data['matkhau']);
+        $data['active']   = $request->boolean('active', true);
+
+        User::create($data);
+
+        return back()->with('success', 'Đã tạo tài khoản.');
+    }
+
+    // UPDATE
+    public function accountUpdate(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'hoten'   => ['required', 'string', 'max:255'],
+            'email'   => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'cccd'    => ['nullable', 'string', 'max:30', Rule::unique('users', 'cccd')->ignore($user->id)],
+            'matkhau' => ['nullable', 'string', 'min:6'],
+            'role'    => ['required', 'integer'],
+            'active'  => ['nullable', 'boolean'],
+        ]);
+
+        if (!empty($data['matkhau'])) {
+            $data['matkhau'] = Hash::make($data['matkhau']);
+        } else {
+            unset($data['matkhau']);
+        }
+        $data['active'] = $request->boolean('active', $user->active);
+
+        $user->update($data);
+
+        return back()->with('success', 'Đã cập nhật tài khoản.');
+    }
+
+    // DELETE
+    public function accountDestroy($id)
+    {
+        if ((int)$id === (int)Auth::id()) {
+            return back()->with('error', 'Không thể xoá tài khoản đang đăng nhập.');
+        }
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return back()->with('success', 'Đã xoá tài khoản.');
     }
 
     public function xettuyen()
@@ -88,17 +203,18 @@ class DaoTaoController extends Controller
         ]);
     }
 
-    public function ketquaxettuyen(Request $request){
+    public function ketquaxettuyen(Request $request)
+    {
         $q      = trim($request->input('q', ''));
         $major  = $request->input('major'); // code ngành
         $sort   = strtolower($request->input('sort', 'desc')); // 'asc' | 'desc'
-        $sort   = in_array($sort, ['asc','desc'], true) ? $sort : 'desc';
+        $sort   = in_array($sort, ['asc', 'desc'], true) ? $sort : 'desc';
         $perPage = 20;
 
         // Dropdown ngành để lọc
         $majors = DB::table('majors')
-            ->select('code','name')
-            ->where('active',1)
+            ->select('code', 'name')
+            ->where('active', 1)
             ->orderBy('code')
             ->get();
 
@@ -108,8 +224,8 @@ class DaoTaoController extends Controller
             ->leftJoin('majors as m', 'm.code', '=', 'w.major_code')
             ->leftJoin('combo_offsets as co', function ($j) {
                 $j->on('co.combo_code', '=', 'w.exam_combo')
-                  ->where('co.base_code', 'D01')
-                  ->where('co.active', 1);
+                    ->where('co.base_code', 'D01')
+                    ->where('co.active', 1);
             })
             ->where('w.status', 'accepted')
             ->when($major, fn($qr) => $qr->where('w.major_code', $major))
@@ -142,6 +258,6 @@ class DaoTaoController extends Controller
             ->orderBy('w.user_id')       // ổn định
             ->paginate($perPage);
 
-        return view('daotao.result', compact('wishes','majors','major','q','sort'));
+        return view('daotao.result', compact('wishes', 'majors', 'major', 'q', 'sort'));
     }
 }

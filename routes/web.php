@@ -41,6 +41,10 @@ Route::middleware(['auth'])->group(function () {
 // Đào tạo
 Route::prefix('dao-tao')->middleware('auth')->middleware('role:1')->group(function () {
     Route::get('/', [DaoTaoController::class, 'index'])->name('homeDaoTao');
+    Route::get('/account', [DaoTaoController::class, 'account'])->name('daotao.account');
+    Route::post('/account', [DaoTaoController::class, 'accountStore'])->name('daotao.account.store');
+    Route::put('/account/{id}', [DaoTaoController::class, 'accountUpdate'])->name('daotao.account.update');
+    Route::delete('/account/{id}', [DaoTaoController::class, 'accountDestroy'])->name('daotao.account.destroy');
     Route::get('/xettuyen', [DaoTaoController::class, 'xettuyen'])->name('xettuyen');
     Route::post('/xet-tuyen', [DaoTaoController::class, 'chayXetTuyen'])->name('xettuyen.chay');
     Route::resource('/majors', MajorController::class)->except(['create', 'show', 'edit']);
@@ -53,12 +57,9 @@ Route::prefix('dao-tao')->middleware('auth')->middleware('role:1')->group(functi
         ->name('wishes.index');
     Route::post('/wishes/run-quota', [WishController::class, 'runQuota'])
         ->name('wishes.runQuota');
+    Route::post('/wishes/run-cutoff-score', [WishController::class, 'runCutoff'])
+        ->name('wishes.runCutoff');
+    Route::get('/wishes/accepted/export-all', [WishController::class, 'exportAllAccepted'])
+        ->name('wishes.accepted.exportAll');
     Route::get('/ket-qua-xet-tuyen', [DaoTaoController::class, 'ketquaxettuyen'])->name('ketquaxettuyen');
-    
-});
-
-// Hiệu trưởng - Boss
-Route::middleware(['auth', 'role:2'])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('homeAdmin');
-    Route::get('/account', [AdminController::class, 'account'])->name('account');
 });
